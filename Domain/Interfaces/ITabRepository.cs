@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
+using Domain.ValueObjects.Directory;
+using Domain.ValueObjects.Tab;
 
 namespace Domain.Interfaces
 {
     public interface ITabRepository
     {
+        Task<IEnumerable<Tab>> GetAllFromDirectoryAsync(DirectoryTabId directoryId);
+        Task<Tab> GetByIdAsync(TabId tabId);
+        Task AddAsync(Tab newTab);
+        Task UpdateAsync(Tab updatedTab);
+        Task DeleteAsync(Tab deletedTab);
     }
 }
