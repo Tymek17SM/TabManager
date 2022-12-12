@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.Directory
 {
-    public class EmptyDirectoryTabIdException : DirectoryException
+    public class EmptyDirectoryTabIdException : DirectoryTabException
     {
         public EmptyDirectoryTabIdException() : base("Directory Id cannot be empty!")
         {

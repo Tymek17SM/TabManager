@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.Directory
 {
-    public class EmptyDirectoryTabNameException : DirectoryException
+    public class EmptyDirectoryTabNameException : DirectoryTabException
     {
         public EmptyDirectoryTabNameException() : base("Directory name cannot be empty.")
         {
