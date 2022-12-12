@@ -1,10 +1,4 @@
-﻿using Domain.Exceptions;
-using Domain.Exceptions.Tab;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Exceptions.Tab;
 
 namespace Domain.ValueObjects.Tab
 {

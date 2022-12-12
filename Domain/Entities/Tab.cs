@@ -16,10 +16,8 @@ namespace Domain.Entities
         private TabDescription _descroption;
         private TabAuditable _audiatble;
 
-        private DirectoryTab _directory;
-        private Guid _directoryId;
-
-        //Pozniej jeszcze będą zdjecia do dodania
+        private DirectoryTab _directoryTab;
+        private Guid _directoryTabId;
 
         public Tab(TabId id, TabName name, TabLink link, TabDescription descroption, TabAuditable tabAuditable)
         {

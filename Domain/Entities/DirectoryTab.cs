@@ -1,4 +1,5 @@
-﻿using Domain.ValueObjects.Directory;
+﻿using Domain.Exceptions.DirectoryTab;
+using Domain.ValueObjects.Directory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,10 @@ namespace Domain.Entities
         private bool _mainDirectory { get; init; }
         private DirectoryTabId _superiorDirectoryId { get; init; }
         private DirectoryTabId _subordinateDirectoryId { get; init; }
-        private readonly ICollection<Tab> _tabs = new List<Tab>();
+
+        private readonly List<Tab> _tabs = new();
         private DirectoryTabAuditable _auditable;
-        //Zdjecie
+        
 
         public DirectoryTab(DirectoryTabId id, DirectoryTabName directoryName, DirectoryTabAuditable auditable)
         {
@@ -31,18 +33,16 @@ namespace Domain.Entities
             _tabs.Add(tab);
         }
 
-        public void SetSubordinateDirectory(DirectoryTabId directoryId)
+        public void RemoveTabFromDirectory(Tab tab)
         {
-            //
-        }
+            var tabExists = _tabs.Exists(t => t.Id == tab.Id);
 
-        public void SetSuperiorDirectory(DirectoryTabId directoryId)
-        {
-            //
-            if(this._mainDirectory == true)
+            if (!tabExists)
             {
-                throw new Exception("TEST TEST MAIN TEST");
+                throw new DirectoryTabTabExistsException(this._directoryName);
             }
+
+            _tabs.Remove(tab);
         }
     }
 }
