@@ -4,7 +4,7 @@ using Domain.ValueObjects.Tab;
 
 namespace Domain.Interfaces
 {
-    public interface ITabRepository
+    public interface ITabRepository : IRepository
     {
         Task<IEnumerable<Tab>> GetAllFromDirectoryAsync(DirectoryTabId directoryId);
         Task<Tab> GetByIdAsync(TabId tabId);

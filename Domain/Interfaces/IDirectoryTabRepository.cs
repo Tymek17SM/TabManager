@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IDirectoryTabRepository
+    public interface IDirectoryTabRepository : IRepository
     {
-        Task<IEnumerable<>> GetAllFromDirectoryAsync(DirectoryTabId directoryId);
-        Task<Tab> GetByIdAsync(DirectoryTabId directoryTabId);
+        Task<IEnumerable<DirectoryTab>> GetAllAsync(DirectoryTabId directoryId);
+        Task<DirectoryTab> GetByIdAsync(DirectoryTabId directoryTabId);
         Task AddAsync(DirectoryTab newDirectoryTab);
         Task UpdateAsync(DirectoryTab updatedDirectoryTab);
         Task DeleteAsync(DirectoryTab deletedDirectoryTab);

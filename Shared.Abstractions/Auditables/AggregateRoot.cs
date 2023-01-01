@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Abstractions.Auditables
 {
-    public abstract class AuditableBase
+    public abstract class AggregateRoot
     {
         protected DateTime _created { get; init; }
         protected string _createdBy { get; init; }
