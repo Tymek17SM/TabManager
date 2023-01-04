@@ -27,7 +27,7 @@ namespace Infrastructure.QueryHandlers.DirectoryTab
 
         async Task<IEnumerable<DirectoryTabDto>> IRequestHandler<GetAllDirectoryTabQuery, IEnumerable<DirectoryTabDto>>.Handle(GetAllDirectoryTabQuery request, CancellationToken cancellationToken)
         {
-            return await _directoryTabs.ProjectTo<DirectoryTabDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await _directoryTabs.Include(di => di.TabReadModels).ProjectTo<DirectoryTabDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
     }
 }

@@ -55,14 +55,14 @@ namespace Infrastructure.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DirectoryTabId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    DirectoryTabReadModelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tabs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tabs_DirectoryTabs_DirectoryTabId",
-                        column: x => x.DirectoryTabId,
+                        name: "Test_Directory_Tab_Id",
+                        column: x => x.DirectoryTabReadModelId,
                         principalSchema: "tabmanager",
                         principalTable: "DirectoryTabs",
                         principalColumn: "Id",
@@ -82,10 +82,10 @@ namespace Infrastructure.Migrations
                 column: "SuperiorDirectoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tabs_DirectoryTabId",
+                name: "IX_Tabs_DirectoryTabReadModelId",
                 schema: "tabmanager",
                 table: "Tabs",
-                column: "DirectoryTabId");
+                column: "DirectoryTabReadModelId");
         }
 
         /// <inheritdoc />

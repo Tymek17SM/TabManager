@@ -24,6 +24,10 @@ namespace Infrastructure.EF.Services
         public async Task<bool> ExistsById(Guid tabId)
         {
             var test = _context.Model.ToDebugString();
+
+            using StreamWriter file = new("C:\\Users\\Tymek\\Desktop\\ReadModelAuto.txt", append:false, Encoding.Unicode);
+            await file.WriteAsync(test);
+
             return await _tabs.AnyAsync(tab => tab.Id == tabId);
         }
     }

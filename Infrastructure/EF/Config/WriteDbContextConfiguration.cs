@@ -38,17 +38,10 @@ namespace Infrastructure.EF.Config
                 value => new TabDescription(value)
                 );
 
-            var test = new ValueConverter<Guid, DirectoryTabId>(
-                t => new DirectoryTabId(t),
-                dir => dir.Value
-                );
-
-            var test2 = new ValueConverter<DirectoryTabId, Guid>(
-                dir => dir.Value,
+            var tabDirectoryTabIdConvert = new ValueConverter<DirectoryTabId, Guid>(
+                tabDirTabId => tabDirTabId.Value,
                 value => new DirectoryTabId(value)
                 );
-
-            builder.ToTable(TableNames.TabTable);
 
             builder.HasKey(tab => tab.Id);
 
@@ -67,7 +60,7 @@ namespace Infrastructure.EF.Config
                 .HasColumnName("Link");
 
             builder
-                .Property(typeof(TabDescription), "_descroption")
+                .Property(typeof(TabDescription), "_description")
                 .HasConversion(tabDescriptionConvert)
                 .HasColumnName("Description");
 
@@ -81,18 +74,14 @@ namespace Infrastructure.EF.Config
 
             builder
                 .Property(typeof(DirectoryTabId), "_directoryTabId")
-                .HasColumnName("DirectoryTabId");
+                .HasConversion(tabDirectoryTabIdConvert)
+                .HasColumnName("DirectoryTabReadModelId");
 
             builder
-                .HasOne(typeof(DirectoryTab), "_directoryTab");
+                .HasOne(typeof(DirectoryTab), "_directoryTab")
+                .WithMany("_tabs");
 
-            //builder
-            //    .Property<Guid>("DirectoryTabId");
-
-            //builder
-            //    .HasOne(tab => tab.DdirectoryTab)
-            //    .WithMany(dir => dir.Tabs)
-            //    .HasForeignKey("DirectoryTabId");
+            builder.ToTable(TableNames.TabTable);
         }
 
         public void Configure(EntityTypeBuilder<DirectoryTab> builder)
@@ -106,8 +95,6 @@ namespace Infrastructure.EF.Config
                 dirTabId => dirTabId.Value,
                 value => new DirectoryTabId(value)
                 );
-
-            builder.ToTable(TableNames.DirectoryTabTable);
 
             builder.HasKey(dir => dir.Id);
 
@@ -144,8 +131,10 @@ namespace Infrastructure.EF.Config
                 .Property(typeof(string), "_createdBy")
                 .HasColumnName("CreatedBy");
 
-            builder
-                .HasMany(typeof(Tab), "_tabs");
+            //builder
+            //    .HasMany(typeof(Tab), "_tabs");
+
+            builder.ToTable(TableNames.DirectoryTabTable);
         }
     }
 }

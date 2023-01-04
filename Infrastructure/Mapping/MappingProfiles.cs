@@ -24,12 +24,7 @@ namespace Application.Mapping
                 .Cast<IMap>()
                 .ToList();
 
-            types.ForEach(t => t.Mapping(this));
-
-
-
-                
+            types.ForEach(t => t.Mapping(this));    
         }
-
     }
 }

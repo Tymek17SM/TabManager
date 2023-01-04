@@ -3,6 +3,7 @@ using Application.Mapping;
 using AutoMapper;
 using Domain.Entities;
 using Domain.ValueObjects.Directory;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,8 @@ namespace Infrastructure.EF.Models
         public void Mapping(Profile profile)
         {
             profile
-                .CreateMap<DirectoryTabReadModel, DirectoryTabDto>();
+                .CreateMap<DirectoryTabReadModel, DirectoryTabDto>()
+                .ForMember(dirTabDto => dirTabDto.Tabs, opt => opt.MapFrom(t => t.TabReadModels));
         }
     }
 }

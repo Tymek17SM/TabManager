@@ -18,7 +18,7 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("tabmanager")
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "7.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -75,7 +75,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("DirectoryTabId")
+                    b.Property<Guid>("DirectoryTabReadModelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Link")
@@ -88,7 +88,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DirectoryTabId");
+                    b.HasIndex("DirectoryTabReadModelId");
 
                     b.ToTable("Tabs", "tabmanager");
                 });
@@ -112,9 +112,10 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Infrastructure.EF.Models.DirectoryTabReadModel", "DirectoryTabReadModel")
                         .WithMany("TabReadModels")
-                        .HasForeignKey("DirectoryTabId")
+                        .HasForeignKey("DirectoryTabReadModelId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("Test_Directory_Tab_Id");
 
                     b.Navigation("DirectoryTabReadModel");
                 });

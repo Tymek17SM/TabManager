@@ -14,9 +14,22 @@ namespace Infrastructure.EF.Context
         public DbSet<Tab> Tabs { get; set; }
         public DbSet<DirectoryTab> Directory { get; set; }
 
+        public WriteDbContext()
+        {
+
+        }
+
         public WriteDbContext(DbContextOptions<WriteDbContext> options) : base(options)
         {
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=DESKTOP-OFID19A\\MSSQLSERVERTYMEK;Database=TabManagerDB;Trusted_Connection=True;TrustServerCertificate=True");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

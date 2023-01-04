@@ -6,6 +6,7 @@ using Infrastructure.EF.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +37,10 @@ namespace Infrastructure.Repositories
         public async Task AddAsync(Tab newTab)
         {
             var test = _context.Model.ToDebugString();
-            Console.WriteLine("");
+
+            using StreamWriter file = new("C:\\Users\\Tymek\\Desktop\\WriteModelAuto.txt", append: false, Encoding.Unicode);
+            await file.WriteAsync(test);
+
             await _tabs.AddAsync(newTab);
             await _context.SaveChangesAsync();
             await Task.CompletedTask;

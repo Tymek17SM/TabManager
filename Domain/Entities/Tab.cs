@@ -16,7 +16,7 @@ namespace Domain.Entities
 
         private TabName _name;
         private TabLink _link;
-        private TabDescription _descroption;
+        private TabDescription _description;
 
         private DirectoryTab _directoryTab;
 
@@ -25,28 +25,28 @@ namespace Domain.Entities
 
         }
 
-        public Tab(TabId id, TabName name, TabLink link, TabDescription descroption, DateTime created, string createdBy)
+        public Tab(TabId id, TabName name, TabLink link, TabDescription description, DateTime created, string createdBy)
         {
             Id = id;
             _name = name;
             _link = link;
-            _descroption = descroption;
+            _description = description;
             _created = created;
             _createdBy = createdBy;
         }
 
-        public Tab(TabId id, TabName name, TabLink link, TabDescription descroption, DirectoryTab directoryTab, DateTime created, string createdBy)
+        public Tab(TabId id, TabName name, TabLink link, TabDescription description, DirectoryTab directoryTab, DateTime created, string createdBy)
         {
             Id = id;
             _name = name;
             _link = link;
-            _descroption = descroption;
+            _description = description;
             _directoryTab = directoryTab;
             _created = created;
             _createdBy = createdBy;
         }
 
-        public void Update(TabName? name = null, TabLink? link = null, TabDescription? descroption = null)
+        public void Update(TabName? name = null, TabLink? link = null, TabDescription? description = null)
         {
             if (name is not null)
                 EditName(name);
@@ -54,8 +54,8 @@ namespace Domain.Entities
             if (link is not null)
                 EditLink(link);
 
-            if (descroption is not null)
-                EditDescription(descroption);
+            if (description is not null)
+                EditDescription(description);
         }
 
         private void EditName(TabName newName) 
@@ -70,7 +70,7 @@ namespace Domain.Entities
 
         private void EditDescription(TabDescription newDescription)
         {
-            _descroption = newDescription;
+            _description = newDescription;
         }
     }
 }

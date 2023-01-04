@@ -14,9 +14,23 @@ namespace Infrastructure.EF.Context
         public DbSet<TabReadModel> Tabs { get; set; }
         public DbSet<DirectoryTabReadModel> Directory { get; set; }
 
+        public ReadDbContext()
+        {
+
+        }
+
         public ReadDbContext(DbContextOptions<ReadDbContext> options) : base(options)
         {
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if(!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=DESKTOP-OFID19A\\MSSQLSERVERTYMEK;Database=TabManagerDB;Trusted_Connection=True;TrustServerCertificate=True");
+            }
+            //base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
