@@ -17,6 +17,7 @@ namespace Infrastructure.EF
         internal static IServiceCollection AddMsSql(this IServiceCollection services, IConfiguration configuration)
         {
             var options = configuration.GetSettings<MsSqlOptions>("MsSql");
+
             services.AddDbContext<ReadDbContext>(optionsBuilder => optionsBuilder.UseSqlServer(options.ConnectionString));
             services.AddDbContext<WriteDbContext>(optionsBuilder => optionsBuilder.UseSqlServer(options.ConnectionString));
             

@@ -30,7 +30,6 @@ namespace Infrastructure.EF.Context
             {
                 optionsBuilder.UseSqlServer("Server=DESKTOP-OFID19A\\MSSQLSERVERTYMEK;Database=TabManagerDB;Trusted_Connection=True;TrustServerCertificate=True");
             }
-            //base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

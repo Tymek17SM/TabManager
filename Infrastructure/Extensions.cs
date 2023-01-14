@@ -1,9 +1,10 @@
 ﻿using Application.Interfaces.ReadServices;
 using Domain.Interfaces;
 using Infrastructure.EF;
-using Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Abstractions.Application;
+using Shared.Abstractions.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,6 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection service, IConfiguration configuration)
         {
             service.AddMsSql(configuration);
-
-            //service.AddScoped<ITabRepository, TabRepository>();
-            //service.AddScoped<IDirectoryTabRepository, DirectoryTabRepository>();
 
             service.Scan(s => s.FromCallingAssembly()
             .AddClasses(d => d.AssignableTo<IApplicationReadService>())

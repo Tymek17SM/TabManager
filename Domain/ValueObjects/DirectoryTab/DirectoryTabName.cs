@@ -2,7 +2,7 @@
 
 namespace Domain.ValueObjects.Directory
 {
-    public record class DirectoryTabName
+    public record DirectoryTabName
     {
         public string Value { get; }
 

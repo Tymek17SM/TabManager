@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ReadDbContext))]
-    [Migration("20230103104712_InitialMigration")]
+    [Migration("20230104145812_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -78,7 +78,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("DirectoryTabReadModelId")
+                    b.Property<Guid>("DirectoryTabId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Link")
@@ -91,7 +91,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DirectoryTabReadModelId");
+                    b.HasIndex("DirectoryTabId");
 
                     b.ToTable("Tabs", "tabmanager");
                 });
@@ -113,19 +113,18 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.EF.Models.TabReadModel", b =>
                 {
-                    b.HasOne("Infrastructure.EF.Models.DirectoryTabReadModel", "DirectoryTabReadModel")
-                        .WithMany("TabReadModels")
-                        .HasForeignKey("DirectoryTabReadModelId")
+                    b.HasOne("Infrastructure.EF.Models.DirectoryTabReadModel", "DirectoryTab")
+                        .WithMany("Tabs")
+                        .HasForeignKey("DirectoryTabId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("Test_Directory_Tab_Id");
+                        .IsRequired();
 
-                    b.Navigation("DirectoryTabReadModel");
+                    b.Navigation("DirectoryTab");
                 });
 
             modelBuilder.Entity("Infrastructure.EF.Models.DirectoryTabReadModel", b =>
                 {
-                    b.Navigation("TabReadModels");
+                    b.Navigation("Tabs");
                 });
 #pragma warning restore 612, 618
         }

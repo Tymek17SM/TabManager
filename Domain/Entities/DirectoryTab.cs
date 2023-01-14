@@ -20,12 +20,12 @@ namespace Domain.Entities
 
         private readonly List<Tab> _tabs = new();
 
-        public DirectoryTab()
+        private DirectoryTab()
         {
 
         }
 
-        public DirectoryTab(DirectoryTabId id, DirectoryTabName directoryName, DateTime created, string createdBy)
+        internal DirectoryTab(DirectoryTabId id, DirectoryTabName directoryName, DateTime created, string createdBy)
         {
             Id = id;
             _directoryName = directoryName;

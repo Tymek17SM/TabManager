@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.ReadServices;
 using Infrastructure.EF.Context;
 using Infrastructure.EF.Models;
+using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,14 +22,15 @@ namespace Infrastructure.EF.Services
             _context = context;
         }
 
-        public async Task<bool> ExistsById(Guid tabId)
+        public async Task<bool> ExistsByIdAsync(Guid tabId, bool withException = false)
         {
-            var test = _context.Model.ToDebugString();
+            //---TEST---
+            //var test = _context.Model.ToDebugString();
+            //using StreamWriter file = new("C:\\Users\\Tymek\\Desktop\\ReadModelAuto.txt", append:false, Encoding.Unicode);
+            //await file.WriteAsync(test);
 
-            using StreamWriter file = new("C:\\Users\\Tymek\\Desktop\\ReadModelAuto.txt", append:false, Encoding.Unicode);
-            await file.WriteAsync(test);
-
-            return await _tabs.AnyAsync(tab => tab.Id == tabId);
+            return await _tabs.AnyAsync(tab => tab.Id == tabId) == true
+                || (withException == true ? throw new TabExistsException(tabId) : false);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Domain.Entities;
+using Domain.Interfaces;
+using Shared.Abstractions.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Factories.DirectoryTabs
 {
-    public interface IDirectoryTabFactory
+    public interface IDirectoryTabFactory : IFactory
     {
         DirectoryTab Create(string Name);
     }

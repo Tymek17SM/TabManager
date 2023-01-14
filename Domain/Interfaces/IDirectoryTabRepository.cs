@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.ValueObjects.Directory;
 using Domain.ValueObjects.Tab;
+using Shared.Abstractions.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

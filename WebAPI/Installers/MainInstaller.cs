@@ -7,22 +7,20 @@ using System.Reflection;
 
 namespace WebAPI.Installers
 {
-    public class MainInstaller : IInstaller
+    internal sealed class MainInstaller : IInstaller
     {
-        public void InstallServices(IServiceCollection service, ConfigurationManager configurationManager)
+        void IInstaller.InstallServices(IServiceCollection services, ConfigurationManager configurationManager)
         {
             // Add services to the container.
+            //------------------------------
 
-            service.AddApplication(configurationManager);
-            service.AddInfrastructure(configurationManager);
+            services.AddApplication();
+            services.AddInfrastructure(configurationManager);
 
-            service.AddControllers();
+            services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            service.AddEndpointsApiExplorer();
-            service.AddSwaggerGen();
-
-            service.AddMvc();
-            service.AddMediatR(typeof(Program), typeof(DirectoryTabDto), typeof(Infrastructure.Extensions));
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
         }
     }
 }

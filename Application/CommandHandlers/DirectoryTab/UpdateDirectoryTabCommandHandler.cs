@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.CommandHandlers.DirectoryTab
 {
-    public class UpdateDirectoryTabCommandHandler : IRequestHandler<UpdateDirectoryTabCommand>
+    internal sealed class UpdateDirectoryTabCommandHandler : IRequestHandler<UpdateDirectoryTabCommand>
     {
         private readonly IDirectoryTabRepository _directoryTabRepository;
         private readonly IDirectoryTabReadService _directoryTabReadService;

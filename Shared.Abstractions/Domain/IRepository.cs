@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces.ReadServices
+namespace Shared.Abstractions.Domain
 {
-    public interface IApplicationReadService
+    public interface IRepository
     {
     }
 }

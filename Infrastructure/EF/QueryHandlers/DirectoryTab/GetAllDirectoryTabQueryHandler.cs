@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.QueryHandlers.DirectoryTab
+namespace Infrastructure.EF.QueryHandlers.DirectoryTab
 {
     internal sealed class GetAllDirectoryTabQueryHandler : IRequestHandler<GetAllDirectoryTabQuery, IEnumerable<DirectoryTabDto>>
     {
@@ -27,7 +27,10 @@ namespace Infrastructure.QueryHandlers.DirectoryTab
 
         async Task<IEnumerable<DirectoryTabDto>> IRequestHandler<GetAllDirectoryTabQuery, IEnumerable<DirectoryTabDto>>.Handle(GetAllDirectoryTabQuery request, CancellationToken cancellationToken)
         {
-            return await _directoryTabs.Include(di => di.TabReadModels).ProjectTo<DirectoryTabDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await _directoryTabs
+                .Include(di => di.Tabs)
+                .ProjectTo<DirectoryTabDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
     }
 }

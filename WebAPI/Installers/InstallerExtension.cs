@@ -7,13 +7,9 @@ namespace WebAPI.Installers
     {
         internal static void InstallServicesInAssembly(this IServiceCollection services, ConfigurationManager configurationManager) 
         {
-            //var test1 = Assembly.GetExecutingAssembly();
-
-            //var test2 = typeof(Program).Assembly;
-
             var installers =
                 Assembly.GetExecutingAssembly()
-                .ExportedTypes
+                .DefinedTypes
                 .Where(x => x.IsAssignableTo(typeof(IInstaller)) && !x.IsInterface && !x.IsAbstract)
                 .Select(Activator.CreateInstance)
                 .Cast<IInstaller>()

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Application.CommandHandlers.Tab
 {
-    public class CreateTabCommandHandler : IRequestHandler<CreateTabCommand>
+    internal sealed class CreateTabCommandHandler : IRequestHandler<CreateTabCommand>
     {
         private readonly ITabRepository _tabRepository;
         private readonly IDirectoryTabRepository _directoryTababRepository;

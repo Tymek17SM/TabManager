@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.CommandHandlers.DirectoryTab
 {
-    public class CreateDirectoryTabCommandHandler : IRequestHandler<CreateDirectoryTabCommand, Guid>
+    internal sealed class CreateDirectoryTabCommandHandler : IRequestHandler<CreateDirectoryTabCommand, Guid>
     {
         private readonly IDirectoryTabRepository _directoryTabRepository;
         private readonly IDirectoryTabFactory _directoryTabFactory;

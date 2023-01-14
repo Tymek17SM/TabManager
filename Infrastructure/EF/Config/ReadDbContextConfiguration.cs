@@ -19,13 +19,12 @@ namespace Infrastructure.EF.Config
             builder.HasKey(tab => tab.Id);
 
             builder
-                .Property<Guid>("DirectoryTabReadModelId");
+                .Property<Guid>("DirectoryTabId");
 
             builder
-                .HasOne(tab => tab.DirectoryTabReadModel)
-                .WithMany(dir => dir.TabReadModels)
-                .HasForeignKey("DirectoryTabReadModelId")
-                .HasConstraintName("Test_Directory_Tab_Id");
+                .HasOne(tab => tab.DirectoryTab)
+                .WithMany(dir => dir.Tabs)
+                .HasForeignKey("DirectoryTabId");
 
             builder.ToTable(TableNames.TabTable);
         }
@@ -55,8 +54,8 @@ namespace Infrastructure.EF.Config
                 .HasPrincipalKey(dir => dir.Id);
 
             builder
-                .HasMany(dir => dir.TabReadModels)
-                .WithOne(tab => tab.DirectoryTabReadModel);
+                .HasMany(dir => dir.Tabs)
+                .WithOne(tab => tab.DirectoryTab);
 
             builder.ToTable(TableNames.DirectoryTabTable);
         }

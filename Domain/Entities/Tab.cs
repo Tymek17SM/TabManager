@@ -20,12 +20,12 @@ namespace Domain.Entities
 
         private DirectoryTab _directoryTab;
 
-        public Tab()
+        private Tab()
         {
 
         }
 
-        public Tab(TabId id, TabName name, TabLink link, TabDescription description, DateTime created, string createdBy)
+        internal Tab(TabId id, TabName name, TabLink link, TabDescription description, DateTime created, string createdBy)
         {
             Id = id;
             _name = name;
@@ -35,7 +35,7 @@ namespace Domain.Entities
             _createdBy = createdBy;
         }
 
-        public Tab(TabId id, TabName name, TabLink link, TabDescription description, DirectoryTab directoryTab, DateTime created, string createdBy)
+        internal Tab(TabId id, TabName name, TabLink link, TabDescription description, DirectoryTab directoryTab, DateTime created, string createdBy)
         {
             Id = id;
             _name = name;
@@ -46,15 +46,15 @@ namespace Domain.Entities
             _createdBy = createdBy;
         }
 
-        public void Update(TabName? name = null, TabLink? link = null, TabDescription? description = null)
+        public void Update(string? name = null, string? link = null, string? description = null)
         {
-            if (name is not null)
+            if (!string.IsNullOrEmpty(name))
                 EditName(name);
 
-            if (link is not null)
+            if (!string.IsNullOrEmpty(link))
                 EditLink(link);
 
-            if (description is not null)
+            if (!string.IsNullOrEmpty(description))
                 EditDescription(description);
         }
 

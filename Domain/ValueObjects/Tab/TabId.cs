@@ -2,7 +2,7 @@
 
 namespace Domain.ValueObjects.Tab
 {
-    public record class TabId
+    public record TabId
     {
         public Guid Value { get; }
 

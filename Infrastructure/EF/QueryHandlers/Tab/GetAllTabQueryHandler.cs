@@ -13,7 +13,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.QueryHandlers.Tab
+namespace Infrastructure.EF.QueryHandlers.Tab
 {
     internal sealed class GetAllTabQueryHandler : IRequestHandler<GetAllTabQuery, IEnumerable<TabDto>>
     {
@@ -28,7 +28,10 @@ namespace Infrastructure.QueryHandlers.Tab
 
         public async Task<IEnumerable<TabDto>> Handle(GetAllTabQuery request, CancellationToken cancellationToken)
         {
-            return await _tabs.ProjectTo<TabDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await _tabs
+                .Include(tab => tab.DirectoryTab)
+                .ProjectTo<TabDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
     }
 }

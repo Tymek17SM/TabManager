@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.ReadServices;
 using Infrastructure.EF.Context;
 using Infrastructure.EF.Models;
+using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,10 @@ namespace Infrastructure.EF.Services
             _directoryTab = readDbContext.Directory;
         }
 
-        public async Task<bool> ExistsByIdAsync(Guid Id)
+        public async Task<bool> ExistsByIdAsync(Guid Id, bool withException)
         {
-            return await _directoryTab.AnyAsync(dir => dir.Id == Id);
+            return await _directoryTab.AnyAsync(dir => dir.Id == Id) == true 
+                || (withException == true ? throw new DirectoryTabExistsException(Id) : false);
         }
     }
 }

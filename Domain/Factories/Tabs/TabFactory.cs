@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Factories.Tabs
 {
-    public sealed class TabFactory : ITabFactory
+    internal sealed class TabFactory : ITabFactory
     {
         public Tab Create(string Name, string Link, string Description)
         {

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.EF.Options
+namespace Shared.Abstractions.Application
 {
-    public class MsSqlOptions 
+    public interface IApplicationReadService
     {
-        public string? ConnectionString { get; set; }
     }
 }

@@ -21,13 +21,18 @@ namespace Infrastructure.EF.Models
         public DirectoryTabReadModel? SubordinateDirectory { get; set; }
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
-        public ICollection<TabReadModel> TabReadModels { get; set; }
+        public ICollection<TabReadModel> Tabs { get; set; }
 
         public void Mapping(Profile profile)
         {
             profile
                 .CreateMap<DirectoryTabReadModel, DirectoryTabDto>()
-                .ForMember(dirTabDto => dirTabDto.Tabs, opt => opt.MapFrom(t => t.TabReadModels));
+                .ForMember(destinationmember => destinationmember.Id, options => options.MapFrom(source => source.Id))
+                .ForMember(destinationmember => destinationmember.Name, options => options.MapFrom(source => source.Name))
+                .ForMember(destinationmember => destinationmember.MainDirectory, options => options.MapFrom(source => source.MainDirectory))
+                .ForMember(destinationmember => destinationmember.SuperiorDirectoryId, options => options.MapFrom(source => source.SuperiorDirectory.Id))
+                .ForMember(destinationmember => destinationmember.SubordinateDirectoryId, options => options.MapFrom(source => source.SubordinateDirectory.Id))
+                .ForMember(destinationmember => destinationmember.Tabs, options => options.MapFrom(source => source.Tabs));
         }
     }
 }

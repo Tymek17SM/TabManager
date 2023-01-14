@@ -75,7 +75,7 @@ namespace Infrastructure.EF.Config
             builder
                 .Property(typeof(DirectoryTabId), "_directoryTabId")
                 .HasConversion(tabDirectoryTabIdConvert)
-                .HasColumnName("DirectoryTabReadModelId");
+                .HasColumnName("DirectoryTabId");
 
             builder
                 .HasOne(typeof(DirectoryTab), "_directoryTab")

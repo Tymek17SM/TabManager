@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.CommandHandlers.Tab
 {
-    public class UpdateTabCommandHandler : IRequestHandler<UpdateTabCommand>
+    internal sealed class UpdateTabCommandHandler : IRequestHandler<UpdateTabCommand>
     {
         private readonly ITabRepository _tabRepository;
         private readonly IMapper _mapper;

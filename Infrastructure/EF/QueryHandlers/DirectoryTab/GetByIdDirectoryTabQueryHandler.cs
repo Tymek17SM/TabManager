@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.QueryHandlers.DirectoryTab
+namespace Infrastructure.EF.QueryHandlers.DirectoryTab
 {
     internal sealed class GetByIdDirectoryTabQueryHandler : IRequestHandler<GetByIdDirectoryTabQuery, DirectoryTabDto>
     {
@@ -30,21 +30,16 @@ namespace Infrastructure.QueryHandlers.DirectoryTab
 
         async Task<DirectoryTabDto> IRequestHandler<GetByIdDirectoryTabQuery, DirectoryTabDto>.Handle(GetByIdDirectoryTabQuery request, CancellationToken cancellationToken)
         {
-            var directoryExists = await _directoryTabReadService.ExistsByIdAsync(request.id);
+            await _directoryTabReadService.ExistsByIdAsync(request.id, true);
 
-            if(!directoryExists)
-            {
-                throw new Exception("Test!");
-            }
-
-#pragma warning disable CA2016 // Forward the 'CancellationToken' parameter to methods
+            #pragma warning disable CS8603 // Possible null reference return.
 
             return await _directoryTabs
                 .Where(dir => dir.Id == request.id)
                 .ProjectTo<DirectoryTabDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
-#pragma warning restore CA2016 // Forward the 'CancellationToken' parameter to methods
+            #pragma warning restore CS8603 // Possible null reference return.
         }
     }
 }

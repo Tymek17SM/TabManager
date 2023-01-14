@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.QueryHandlers.Tab
+namespace Infrastructure.EF.QueryHandlers.Tab
 {
     internal sealed class GetByIdTabQueryHandlers : IRequestHandler<GetByIdTabQuery, TabDto>
     {
@@ -31,19 +31,16 @@ namespace Infrastructure.QueryHandlers.Tab
 
         public async Task<TabDto> Handle(GetByIdTabQuery request, CancellationToken cancellationToken)
         {
-            bool tabExists = await _tabReadService.ExistsById(request.id);
+            await _tabReadService.ExistsByIdAsync(request.id, true);
 
-            if (!tabExists)
-                throw new Exception("Tab NIE MA");
-
-#pragma warning disable CS8603 // Possible null reference return.
+            #pragma warning disable CS8603 // Possible null reference return.
 
             return await _tabs
                 .Where(tab => tab.Id == request.id)
                 .ProjectTo<TabDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
-#pragma warning restore CS8603 // Possible null reference return.
+            #pragma warning restore CS8603 // Possible null reference return.
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Factories.DirectoryTabs
 {
-    public class DirectoryTabFactory : IDirectoryTabFactory
+    internal sealed class DirectoryTabFactory : IDirectoryTabFactory
     {
         public DirectoryTab Create(string Name)
         {

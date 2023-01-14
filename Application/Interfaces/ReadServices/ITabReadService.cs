@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Abstractions.Application;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Application.Interfaces.ReadServices
 {
     public interface ITabReadService : IApplicationReadService
     {
-        Task<bool> ExistsById(Guid tabId);
+        Task<bool> ExistsByIdAsync(Guid tabId, bool withException = false);
     }
 }

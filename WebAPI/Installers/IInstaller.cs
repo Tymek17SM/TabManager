@@ -1,7 +1,7 @@
 ﻿namespace WebAPI.Installers
 {
-    public interface IInstaller
+    internal interface IInstaller
     {
-        public void InstallServices(IServiceCollection services, ConfigurationManager configurationManager);
+        internal protected void InstallServices(IServiceCollection services, ConfigurationManager configurationManager);
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.CommandHandlers.Tab
 {
-    public class DeleteTabCommandHandler : IRequestHandler<DeleteTabCommand>
+    internal sealed class DeleteTabCommandHandler : IRequestHandler<DeleteTabCommand>
     {
         private readonly ITabRepository _tabRepository;
         private readonly ITabReadService _tabReadService;
@@ -23,7 +23,7 @@ namespace Application.CommandHandlers.Tab
 
         async Task<Unit> IRequestHandler<DeleteTabCommand, Unit>.Handle(DeleteTabCommand request, CancellationToken cancellationToken)
         {
-            var tabExists = await _tabReadService.ExistsById(request.Id);
+            var tabExists = await _tabReadService.ExistsByIdAsync(request.Id);
 
             if (!tabExists)
             {

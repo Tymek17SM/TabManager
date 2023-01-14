@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.EF.Repositories
 {
     internal sealed class TabRepository : ITabRepository
     {
@@ -36,10 +36,10 @@ namespace Infrastructure.Repositories
 
         public async Task AddAsync(Tab newTab)
         {
-            var test = _context.Model.ToDebugString();
-
-            using StreamWriter file = new("C:\\Users\\Tymek\\Desktop\\WriteModelAuto.txt", append: false, Encoding.Unicode);
-            await file.WriteAsync(test);
+            //---TEST---
+            //var test = _context.Model.ToDebugString();
+            //using StreamWriter file = new("C:\\Users\\Tymek\\Desktop\\WriteModelAuto.txt", append: false, Encoding.Unicode);
+            //await file.WriteAsync(test);
 
             await _tabs.AddAsync(newTab);
             await _context.SaveChangesAsync();

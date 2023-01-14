@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.CommandHandlers.DirectoryTab
 {
-    public class DeleteDirectoryTabCommandHandler : IRequestHandler<DeleteDirectoryTabCommand>
+    internal sealed class DeleteDirectoryTabCommandHandler : IRequestHandler<DeleteDirectoryTabCommand>
     {
         private readonly IDirectoryTabRepository _directoryTabRepository;
         private readonly IDirectoryTabReadService _directoryTabReadService;

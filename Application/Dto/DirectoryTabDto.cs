@@ -15,8 +15,6 @@ namespace Application.Dto
         public bool MainDirectory { get; set; }
         public Guid? SuperiorDirectoryId { get; set; }
         public Guid? SubordinateDirectoryId { get; set; }
-        public DateTime Created { get; set; }
-        public string CreatedBy { get; set; }
         public ICollection<TabDto>? Tabs { get; set; }
     }
 }
