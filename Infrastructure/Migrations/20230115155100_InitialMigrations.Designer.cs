@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ReadDbContext))]
-    [Migration("20230104145812_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230115155100_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,15 +46,10 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("SubordinateDirectoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("SuperiorDirectoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SubordinateDirectoryId");
 
                     b.HasIndex("SuperiorDirectoryId");
 
@@ -98,15 +93,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.EF.Models.DirectoryTabReadModel", b =>
                 {
-                    b.HasOne("Infrastructure.EF.Models.DirectoryTabReadModel", "SubordinateDirectory")
-                        .WithMany()
-                        .HasForeignKey("SubordinateDirectoryId");
-
                     b.HasOne("Infrastructure.EF.Models.DirectoryTabReadModel", "SuperiorDirectory")
-                        .WithMany()
+                        .WithMany("SubordinateDirectories")
                         .HasForeignKey("SuperiorDirectoryId");
-
-                    b.Navigation("SubordinateDirectory");
 
                     b.Navigation("SuperiorDirectory");
                 });
@@ -124,6 +113,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.EF.Models.DirectoryTabReadModel", b =>
                 {
+                    b.Navigation("SubordinateDirectories");
+
                     b.Navigation("Tabs");
                 });
 #pragma warning restore 612, 618

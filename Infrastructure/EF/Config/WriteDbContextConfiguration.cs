@@ -117,11 +117,11 @@ namespace Infrastructure.EF.Config
                 .HasColumnName("SuperiorDirectoryId")
                 .IsRequired(false);
 
-            builder
-                .Property(typeof(DirectoryTabId), "_subordinateDirectoryId")
-                .HasConversion(directoryTabIdConverter)
-                .HasColumnName("SubordinateDirectoryId")
-                .IsRequired(false);
+            //builder
+            //    .Property(typeof(DirectoryTabId), "_subordinateDirectoryId")
+            //    .HasConversion(directoryTabIdConverter)
+            //    .HasColumnName("SubordinateDirectoryId")
+            //    .IsRequired(false);
 
             builder
                 .Property(typeof(DateTime), "_created")
@@ -130,6 +130,11 @@ namespace Infrastructure.EF.Config
             builder
                 .Property(typeof(string), "_createdBy")
                 .HasColumnName("CreatedBy");
+
+            builder
+                .HasMany("_subordinateDirectories")
+                .WithOne()
+                .HasForeignKey("_superiorDirectoryId");
 
             //builder
             //    .HasMany(typeof(Tab), "_tabs");

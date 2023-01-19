@@ -16,7 +16,8 @@ namespace Domain.Entities
         private DirectoryTabName _directoryName;
         private bool _mainDirectory;
         private DirectoryTabId? _superiorDirectoryId;
-        private DirectoryTabId? _subordinateDirectoryId;
+
+        private readonly List<DirectoryTab> _subordinateDirectories = new();
 
         private readonly List<Tab> _tabs = new();
 
@@ -36,6 +37,11 @@ namespace Domain.Entities
         public void AddTabToDirectory(Tab tab)
         {
             _tabs.Add(tab);
+        }
+
+        public void AddSubordinateDirectory(DirectoryTab subordinateDirectory) 
+        {
+            _subordinateDirectories.Add(subordinateDirectory);
         }
 
         public void RemoveTabFromDirectory(Tab tab)

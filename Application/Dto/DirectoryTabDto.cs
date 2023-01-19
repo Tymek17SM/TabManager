@@ -14,7 +14,7 @@ namespace Application.Dto
         public string Name { get; set; }
         public bool MainDirectory { get; set; }
         public Guid? SuperiorDirectoryId { get; set; }
-        public Guid? SubordinateDirectoryId { get; set; }
+        public ICollection<DirectoryTabDto> SubordinateDirectories { get; set; }
         public ICollection<TabDto>? Tabs { get; set; }
     }
 }

@@ -39,19 +39,25 @@ namespace Infrastructure.EF.Config
 
             builder
                 .HasOne(dir => dir.SuperiorDirectory)
-                .WithMany()
-                .HasForeignKey("SuperiorDirectoryId")
-                .HasPrincipalKey(dir => dir.Id);
+                .WithMany(d => d.SubordinateDirectories)
+                .HasForeignKey("SuperiorDirectoryId");
+                //.HasPrincipalKey(dir => dir.Id);
+
+            //builder
+            //    .Property<Guid?>("SubordinateDirectoryId")
+            //    .IsRequired(false);
+
+            //builder
+            //    .HasOne(dir => dir.SubordinateDirectory)
+            //    .WithMany()
+            //    .HasForeignKey("SubordinateDirectoryId")
+            //    .HasPrincipalKey(dir => dir.Id);
 
             builder
-                .Property<Guid?>("SubordinateDirectoryId")
-                .IsRequired(false);
-
-            builder
-                .HasOne(dir => dir.SubordinateDirectory)
-                .WithMany()
-                .HasForeignKey("SubordinateDirectoryId")
-                .HasPrincipalKey(dir => dir.Id);
+                .HasMany(dir => dir.SubordinateDirectories)
+                .WithOne(d => d.SuperiorDirectory);
+                //.HasForeignKey("SuperiorDirectoryId")
+                //.HasPrincipalKey(dir => dir.Id);
 
             builder
                 .HasMany(dir => dir.Tabs)

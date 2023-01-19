@@ -9,16 +9,16 @@ namespace WebAPI.Controllers.V1
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DirectoryTabController : ControllerBase
+    public class DirectoryTabsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public DirectoryTabController(IMediator mediator)
+        public DirectoryTabsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAllDirectoryTabs()
         {
             var querry = new GetAllDirectoryTabQuery();
@@ -49,6 +49,20 @@ namespace WebAPI.Controllers.V1
 
         [HttpDelete]
         public async Task<IActionResult> DeleleDirectoryTab(DeleteDirectoryTabCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateSubordinateDirectoryTab(CreateSubordinateDirectoryTabCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Created($"api/DirectoryTab/{result}", null);
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> MoveSubordinateDirectoryTab(MoveSubordinateDirectoryTabCommand command)
         {
             await _mediator.Send(command);
             return NoContent();

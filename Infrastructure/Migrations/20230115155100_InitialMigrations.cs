@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,19 +23,12 @@ namespace Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MainDirectory = table.Column<bool>(type: "bit", nullable: false),
                     SuperiorDirectoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SubordinateDirectoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DirectoryTabs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DirectoryTabs_DirectoryTabs_SubordinateDirectoryId",
-                        column: x => x.SubordinateDirectoryId,
-                        principalSchema: "tabmanager",
-                        principalTable: "DirectoryTabs",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DirectoryTabs_DirectoryTabs_SuperiorDirectoryId",
                         column: x => x.SuperiorDirectoryId,
@@ -68,12 +61,6 @@ namespace Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DirectoryTabs_SubordinateDirectoryId",
-                schema: "tabmanager",
-                table: "DirectoryTabs",
-                column: "SubordinateDirectoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DirectoryTabs_SuperiorDirectoryId",

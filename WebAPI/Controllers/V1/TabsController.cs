@@ -7,10 +7,10 @@ namespace WebAPI.Controllers.V1
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TabController : ControllerBase
+    public class TabsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public TabController(IMediator mediator)
+        public TabsController(IMediator mediator)
         {
             _mediator = mediator;
         }

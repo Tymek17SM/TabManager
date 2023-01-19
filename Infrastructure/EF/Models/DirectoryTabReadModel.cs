@@ -18,7 +18,7 @@ namespace Infrastructure.EF.Models
         public string Name { get; set; }
         public bool MainDirectory { get; set; }
         public DirectoryTabReadModel? SuperiorDirectory { get; set; }
-        public DirectoryTabReadModel? SubordinateDirectory { get; set; }
+        public  ICollection<DirectoryTabReadModel> SubordinateDirectories { get; set; }
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public ICollection<TabReadModel> Tabs { get; set; }
@@ -31,7 +31,7 @@ namespace Infrastructure.EF.Models
                 .ForMember(destinationmember => destinationmember.Name, options => options.MapFrom(source => source.Name))
                 .ForMember(destinationmember => destinationmember.MainDirectory, options => options.MapFrom(source => source.MainDirectory))
                 .ForMember(destinationmember => destinationmember.SuperiorDirectoryId, options => options.MapFrom(source => source.SuperiorDirectory.Id))
-                .ForMember(destinationmember => destinationmember.SubordinateDirectoryId, options => options.MapFrom(source => source.SubordinateDirectory.Id))
+                .ForMember(destinationmember => destinationmember.SubordinateDirectories, options => options.MapFrom(source => source.SubordinateDirectories))
                 .ForMember(destinationmember => destinationmember.Tabs, options => options.MapFrom(source => source.Tabs));
         }
     }
