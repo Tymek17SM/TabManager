@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.ValueObjects.ApplicationUser;
 using Domain.ValueObjects.Directory;
 using Domain.ValueObjects.Tab;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,8 @@ namespace Infrastructure.EF.Config
 {
     internal sealed class WriteDbContextConfiguration :
         IEntityTypeConfiguration<Tab>,
-        IEntityTypeConfiguration<DirectoryTab>
+        IEntityTypeConfiguration<DirectoryTab>,
+        IEntityTypeConfiguration<ApplicationUser>
     {
         public void Configure(EntityTypeBuilder<Tab> builder)
         {
@@ -140,6 +142,65 @@ namespace Infrastructure.EF.Config
             //    .HasMany(typeof(Tab), "_tabs");
 
             builder.ToTable(TableNames.DirectoryTabTable);
+        }
+
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+        {
+            var ApplicationUserIdConverter = new ValueConverter<ApplicationUserId, Guid>(
+                u => u.Value,
+                value => new(value));
+
+            var ApplicationUserName = new ValueConverter<ApplicationUserName, string>(
+                u => u.Value,
+                value => new(value));
+
+            var ApplicationUserMail = new ValueConverter<ApplicationUserMail, string>(
+                u => u.Value,
+                value => new(value));
+
+            var ApplicationUserPasswordHash = new ValueConverter<ApplicationUserPasswordHash, string>(
+                u => u.Value,
+                value => new(value));
+
+            builder
+                .HasKey(u => u.Id);
+
+            builder
+                .Property(u => u.Id)
+                .HasConversion(ApplicationUserIdConverter);
+
+            builder
+                .Property(typeof(ApplicationUserName), "_name")
+                .HasConversion(ApplicationUserName)
+                .HasColumnName("Name");
+
+            builder
+                .Property(typeof(ApplicationUserMail), "_mail")
+                .HasConversion(ApplicationUserMail)
+                .HasColumnName("Mail");
+
+            builder
+                .Property(typeof(ApplicationUserPasswordHash), "_passwordHash")
+                .HasConversion(ApplicationUserPasswordHash)
+                .HasColumnName("PasswordHash")
+                .IsRequired(true);
+
+            builder
+                .Property(typeof(DateTime), "_created")
+                .HasColumnName("Created");
+
+            builder
+                .Property(typeof(string), "_createdBy")
+                .HasColumnName("CreatedBy");
+
+            builder
+                .HasMany("_directoryTabs")
+                .WithOne("_owner")
+                .HasForeignKey("OwnerId")
+                .IsRequired(true);
+
+            builder
+                .ToTable(TableNames.ApplicationUserTable);
         }
     }
 }

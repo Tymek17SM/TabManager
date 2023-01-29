@@ -10,5 +10,6 @@ namespace Infrastructure.EF.Config
     {
         internal const string TabTable = "Tabs";
         internal const string DirectoryTabTable = "DirectoryTabs";
+        internal const string ApplicationUserTable = "ApplicationUsers";
     }
 }

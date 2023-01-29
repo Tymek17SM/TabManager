@@ -13,6 +13,7 @@ namespace Infrastructure.EF.Context
     {
         public DbSet<TabReadModel> Tabs { get; set; }
         public DbSet<DirectoryTabReadModel> Directory { get; set; }
+        public DbSet<ApplicationUserReadModel> ApplicationUsers { get; set; }
 
         public ReadDbContext()
         {
@@ -39,6 +40,7 @@ namespace Infrastructure.EF.Context
             var configuration = new ReadDbContextConfiguration();
             modelBuilder.ApplyConfiguration<TabReadModel>(configuration);
             modelBuilder.ApplyConfiguration<DirectoryTabReadModel>(configuration);
+            modelBuilder.ApplyConfiguration<ApplicationUserReadModel>(configuration);
         }
     }
 }

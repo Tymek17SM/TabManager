@@ -16,6 +16,7 @@ namespace Domain.Entities
         private DirectoryTabName _directoryName;
         private bool _mainDirectory;
         private DirectoryTabId? _superiorDirectoryId;
+        private ApplicationUser _owner;
 
         private readonly List<DirectoryTab> _subordinateDirectories = new();
 
@@ -26,12 +27,14 @@ namespace Domain.Entities
 
         }
 
-        internal DirectoryTab(DirectoryTabId id, DirectoryTabName directoryName, DateTime created, string createdBy)
+        internal DirectoryTab(DirectoryTabId id, DirectoryTabName directoryName, DateTime created, string createdBy, 
+            ApplicationUser owner)
         {
             Id = id;
             _directoryName = directoryName;
             _created = created;
             _createdBy = createdBy;
+            _owner = owner;
         }
 
         public void AddTabToDirectory(Tab tab)

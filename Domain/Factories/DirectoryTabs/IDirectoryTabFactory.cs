@@ -11,6 +11,6 @@ namespace Domain.Factories.DirectoryTabs
 {
     public interface IDirectoryTabFactory : IFactory
     {
-        DirectoryTab Create(string Name);
+        DirectoryTab Create(string directoryTabName, ApplicationUser owner, string ownerName);
     }
 }

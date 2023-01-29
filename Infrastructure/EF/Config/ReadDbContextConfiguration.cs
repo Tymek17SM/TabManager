@@ -12,7 +12,8 @@ namespace Infrastructure.EF.Config
 {
     internal sealed class ReadDbContextConfiguration : 
         IEntityTypeConfiguration<TabReadModel>,
-        IEntityTypeConfiguration<DirectoryTabReadModel>
+        IEntityTypeConfiguration<DirectoryTabReadModel>,
+        IEntityTypeConfiguration<ApplicationUserReadModel>
     {
         public void Configure(EntityTypeBuilder<TabReadModel> builder)
         {
@@ -56,14 +57,35 @@ namespace Infrastructure.EF.Config
             builder
                 .HasMany(dir => dir.SubordinateDirectories)
                 .WithOne(d => d.SuperiorDirectory);
-                //.HasForeignKey("SuperiorDirectoryId")
-                //.HasPrincipalKey(dir => dir.Id);
+            //.HasForeignKey("SuperiorDirectoryId")
+            //.HasPrincipalKey(dir => dir.Id);
+
+            builder
+                .Property<Guid>("OwnerId")
+                .IsRequired(true);
+
+            builder
+                .HasOne(dir => dir.Owner)
+                .WithMany(u => u.DirectoryTabs)
+                .HasForeignKey("OwnerId");
 
             builder
                 .HasMany(dir => dir.Tabs)
                 .WithOne(tab => tab.DirectoryTab);
 
             builder.ToTable(TableNames.DirectoryTabTable);
+        }
+
+        public void Configure(EntityTypeBuilder<ApplicationUserReadModel> builder)
+        {
+            builder
+                .HasKey(u => u.Id);
+
+            builder
+                .HasMany(u => u.DirectoryTabs)
+                .WithOne(d => d.Owner);
+
+            builder.ToTable(TableNames.ApplicationUserTable);
         }
     }
 }

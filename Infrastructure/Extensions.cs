@@ -1,10 +1,16 @@
 ﻿using Application.Interfaces.ReadServices;
 using Domain.Interfaces;
 using Infrastructure.EF;
+using Infrastructure.EF.Context;
+using Infrastructure.EF.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Shared.Abstractions.Application;
 using Shared.Abstractions.Domain;
+using Shared.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,23 +22,27 @@ namespace Infrastructure
 {
     public static class Extensions 
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection service, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            service.AddMsSql(configuration);
+            services.AddMsSql(configuration);
 
-            service.Scan(s => s.FromCallingAssembly()
+            services.Scan(s => s.FromCallingAssembly()
             .AddClasses(d => d.AssignableTo<IApplicationReadService>())
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-            service.Scan(s => s.FromCallingAssembly()
+            services.Scan(s => s.FromCallingAssembly()
             .AddClasses(d => d.AssignableTo<IRepository>())
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
-            service.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            return service;
+            services.AddHttpContextAccessor();
+            services.AddTransient<IUserResolverService, UserResolverService>();
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            return services;
         }
     }
 }

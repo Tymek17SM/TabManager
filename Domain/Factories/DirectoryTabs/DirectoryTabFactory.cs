@@ -9,13 +9,14 @@ namespace Domain.Factories.DirectoryTabs
 {
     internal sealed class DirectoryTabFactory : IDirectoryTabFactory
     {
-        public DirectoryTab Create(string Name)
+        public DirectoryTab Create(string directoryTabName, ApplicationUser owner, string ownerName)
         {
             return new DirectoryTab(
                 Guid.NewGuid(),
-                Name,
+                directoryTabName,
                 DateTime.Now,
-                "Uzyszkodnik");
+                ownerName,
+                owner);
         }
     }
 }

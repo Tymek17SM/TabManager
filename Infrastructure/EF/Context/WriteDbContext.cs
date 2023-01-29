@@ -13,6 +13,7 @@ namespace Infrastructure.EF.Context
     {
         public DbSet<Tab> Tabs { get; set; }
         public DbSet<DirectoryTab> Directory { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public WriteDbContext()
         {
@@ -39,6 +40,7 @@ namespace Infrastructure.EF.Context
             var configuration = new WriteDbContextConfiguration();
             modelBuilder.ApplyConfiguration<Tab>(configuration);
             modelBuilder.ApplyConfiguration<DirectoryTab>(configuration);
+            modelBuilder.ApplyConfiguration<ApplicationUser>(configuration);
         }
     }
 }

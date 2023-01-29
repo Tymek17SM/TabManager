@@ -21,6 +21,7 @@ namespace Infrastructure.EF.Models
         public  ICollection<DirectoryTabReadModel> SubordinateDirectories { get; set; }
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
+        public ApplicationUserReadModel Owner { get; set; }
         public ICollection<TabReadModel> Tabs { get; set; }
 
         public void Mapping(Profile profile)

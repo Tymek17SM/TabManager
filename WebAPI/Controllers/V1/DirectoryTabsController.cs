@@ -3,12 +3,14 @@ using Application.Queries;
 using Application.Queries.DirectoryTab;
 using Application.Queries.Tab;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.V1
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class DirectoryTabsController : ControllerBase
     {
         private readonly IMediator _mediator;

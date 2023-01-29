@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces.ReadServices;
+using Domain.Entities;
 using Domain.Factories.DirectoryTabs;
 using Domain.Factories.Tabs;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Abstractions.Domain;
@@ -21,6 +23,8 @@ namespace Application
             .AddClasses(a => a.AssignableTo<IFactory>())
             .AsImplementedInterfaces()
             .WithSingletonLifetime());
+
+            services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
 
             return services;
         }

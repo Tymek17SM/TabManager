@@ -17,15 +17,22 @@ namespace Application.CommandHandlers.DirectoryTab
         private readonly IDirectoryTabReadService _service;
         private readonly IDirectoryTabRepository _repository;
         private readonly IDirectoryTabFactory _factory;
+        private readonly IUserResolverService _userResolverService;
+        private readonly IApplicationUserRepository _applicationuserRepository;
 
         public CreateSubordinateDirectoryTabCommandHandler(
             IDirectoryTabReadService service,
             IDirectoryTabRepository repository,
-            IDirectoryTabFactory factory)
+            IDirectoryTabFactory factory,
+            IUserResolverService userResolverService,
+            IApplicationUserRepository applicationUserRepository
+            )
         {
             _service = service;
             _repository = repository;
             _factory = factory;
+            _userResolverService = userResolverService;
+            _applicationuserRepository = applicationUserRepository;
         }
 
         async Task<Guid> IRequestHandler<CreateSubordinateDirectoryTabCommand, Guid>.Handle(CreateSubordinateDirectoryTabCommand request, CancellationToken cancellationToken)
@@ -36,7 +43,12 @@ namespace Application.CommandHandlers.DirectoryTab
 
             var directory = await _repository.GetByIdAsync(id);
 
-            var newDirectory = _factory.Create(name);
+            var userName = _userResolverService.GetUserName();
+            var userId = _userResolverService.GetUserId();
+
+            var user = await _applicationuserRepository.GetByIdAsync(userId);
+
+            var newDirectory = _factory.Create(name, user, userName);
 
             directory.AddSubordinateDirectory(newDirectory);
 

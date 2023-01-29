@@ -20,7 +20,7 @@ namespace Infrastructure.EF
 
             services.AddDbContext<ReadDbContext>(optionsBuilder => optionsBuilder.UseSqlServer(options.ConnectionString));
             services.AddDbContext<WriteDbContext>(optionsBuilder => optionsBuilder.UseSqlServer(options.ConnectionString));
-            
+
             return services;
         }
     }
