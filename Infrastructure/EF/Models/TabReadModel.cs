@@ -20,6 +20,7 @@ namespace Infrastructure.EF.Models
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public DirectoryTabReadModel DirectoryTab { get; set; }
+        public ApplicationUserReadModel Owner { get; set; }
 
         public void Mapping(Profile profile)
         {

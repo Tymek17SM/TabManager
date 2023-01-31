@@ -11,14 +11,18 @@ namespace Domain.Factories.Tabs
 {
     internal sealed class TabFactory : ITabFactory
     {
-        public Tab Create(string Name, string Link, string Description)
-        {
-            return new Tab(Guid.NewGuid(), Name, Link, Description, DateTime.Now, "Uzyszkodnik");
-        }
 
-        public Tab Create(string Name, string Link, string Description, DirectoryTab directoryTab)
+        public Tab Create(string Name, string Link, string Description, DirectoryTab directoryTab, ApplicationUser owner, string userName)
         {
-            return new Tab(Guid.NewGuid(), Name, Link, Description, directoryTab, DateTime.Now, "Uzyszkodnik");
+            return new Tab(
+                Guid.NewGuid(), 
+                Name, 
+                Link, 
+                Description,
+                directoryTab,
+                DateTime.Now,
+                userName,
+                owner);
         }
     }
 }

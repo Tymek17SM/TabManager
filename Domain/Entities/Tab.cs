@@ -20,22 +20,14 @@ namespace Domain.Entities
 
         private DirectoryTab _directoryTab;
 
+        private readonly ApplicationUser _owner;
+
         private Tab()
         {
 
         }
 
-        internal Tab(TabId id, TabName name, TabLink link, TabDescription description, DateTime created, string createdBy)
-        {
-            Id = id;
-            _name = name;
-            _link = link;
-            _description = description;
-            _created = created;
-            _createdBy = createdBy;
-        }
-
-        internal Tab(TabId id, TabName name, TabLink link, TabDescription description, DirectoryTab directoryTab, DateTime created, string createdBy)
+        internal Tab(TabId id, TabName name, TabLink link, TabDescription description, DirectoryTab directoryTab, DateTime created, string createdBy, ApplicationUser owner)
         {
             Id = id;
             _name = name;
@@ -44,6 +36,7 @@ namespace Domain.Entities
             _directoryTab = directoryTab;
             _created = created;
             _createdBy = createdBy;
+            _owner = owner;
         }
 
         public void Update(string? name = null, string? link = null, string? description = null)

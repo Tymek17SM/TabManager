@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.V1
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class DirectoryTabsController : ControllerBase
     {
         private readonly IMediator _mediator;

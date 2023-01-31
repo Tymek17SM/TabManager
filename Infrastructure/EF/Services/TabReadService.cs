@@ -2,6 +2,7 @@
 using Infrastructure.EF.Context;
 using Infrastructure.EF.Models;
 using Infrastructure.Exceptions;
+using Infrastructure.Exceptions.Tab;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,17 @@ namespace Infrastructure.EF.Services
 
             return await _tabs.AnyAsync(tab => tab.Id == tabId) == true
                 || (withException == true ? throw new TabExistsException(tabId) : false);
+        }
+
+        public async Task<bool> UserOwnerTab(Guid tabId, Guid userId, bool withException = false)
+        {
+            var tab = await _context.Tabs
+                .Include(tab => tab.Owner)
+                .SingleOrDefaultAsync(tab => tab.Id == tabId);
+
+            return tab.Owner.Id == userId
+                ? true
+                : withException ? throw new TabOwnerException() : false;
         }
     }
 }

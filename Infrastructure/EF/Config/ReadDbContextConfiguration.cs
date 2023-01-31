@@ -27,6 +27,11 @@ namespace Infrastructure.EF.Config
                 .WithMany(dir => dir.Tabs)
                 .HasForeignKey("DirectoryTabId");
 
+            builder
+                .HasOne(tab => tab.Owner)
+                .WithMany(user => user.Tabs)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.ToTable(TableNames.TabTable);
         }
 
@@ -42,23 +47,10 @@ namespace Infrastructure.EF.Config
                 .HasOne(dir => dir.SuperiorDirectory)
                 .WithMany(d => d.SubordinateDirectories)
                 .HasForeignKey("SuperiorDirectoryId");
-                //.HasPrincipalKey(dir => dir.Id);
-
-            //builder
-            //    .Property<Guid?>("SubordinateDirectoryId")
-            //    .IsRequired(false);
-
-            //builder
-            //    .HasOne(dir => dir.SubordinateDirectory)
-            //    .WithMany()
-            //    .HasForeignKey("SubordinateDirectoryId")
-            //    .HasPrincipalKey(dir => dir.Id);
 
             builder
                 .HasMany(dir => dir.SubordinateDirectories)
                 .WithOne(d => d.SuperiorDirectory);
-            //.HasForeignKey("SuperiorDirectoryId")
-            //.HasPrincipalKey(dir => dir.Id);
 
             builder
                 .Property<Guid>("OwnerId")

@@ -1,10 +1,12 @@
 ﻿using Application.Commands.Tab;
 using Application.Queries.Tab;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers.V1
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class TabsController : ControllerBase

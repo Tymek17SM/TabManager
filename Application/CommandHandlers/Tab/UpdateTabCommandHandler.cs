@@ -1,4 +1,5 @@
 ﻿using Application.Commands.Tab;
+using Application.Interfaces.ReadServices;
 using AutoMapper;
 using Domain.Factories;
 using Domain.Interfaces;
@@ -14,17 +15,31 @@ namespace Application.CommandHandlers.Tab
     internal sealed class UpdateTabCommandHandler : IRequestHandler<UpdateTabCommand>
     {
         private readonly ITabRepository _tabRepository;
-        private readonly IMapper _mapper;
+        private readonly ITabReadService _tabReadService;
+        private readonly IUserResolverService _userResolverService;
+        private readonly IApplicationUserReadService _applicationUserReadService;
 
-        public UpdateTabCommandHandler(ITabRepository tabRepository, IMapper mapper)
+        public UpdateTabCommandHandler(ITabRepository tabRepository,
+            ITabReadService tabReadService, IUserResolverService userResolverService,
+            IApplicationUserReadService applicationUserReadService)
         {
             _tabRepository = tabRepository;
-            _mapper = mapper;
+            _tabReadService = tabReadService;
+            _userResolverService = userResolverService;
+            _applicationUserReadService = applicationUserReadService;
         }
 
         async Task<Unit> IRequestHandler<UpdateTabCommand, Unit>.Handle(UpdateTabCommand request, CancellationToken cancellationToken)
         {
             var (Id, Name, Link, Description) = request;
+
+            var userIdFromToken = _userResolverService.GetUserId();
+
+            await _applicationUserReadService.ExistsByIdAsync(userIdFromToken, true);
+
+            await _tabReadService.ExistsByIdAsync(Id, true);
+
+            await _tabReadService.UserOwnerTab(Id, userIdFromToken, true);
 
             var tab = await _tabRepository.GetByIdAsync(Id);
 

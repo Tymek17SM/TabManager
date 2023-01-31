@@ -10,7 +10,6 @@ namespace Domain.Factories.Tabs
 {
     public interface ITabFactory : IFactory
     {
-        Tab Create(string Name, string Link, string Description);
-        Tab Create(string Name, string Link, string Description, DirectoryTab directoryTab);
+        Tab Create(string Name, string Link, string Description, DirectoryTab directoryTab, ApplicationUser owner, string userName);
     }
 }

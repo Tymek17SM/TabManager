@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Exceptions
+namespace Infrastructure.Exceptions.Tab
 {
-    internal class TabExistsException : TabException
+    internal class TabOwnerException : TabException
     {
-        public TabExistsException(Guid Id) : base($"Does not exists Tab with Id: {Id}")
+        public TabOwnerException() : base("You do not own this tab!")
         {
 
         }

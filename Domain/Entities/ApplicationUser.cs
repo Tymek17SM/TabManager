@@ -23,6 +23,7 @@ namespace Domain.Entities
         private ApplicationUserPasswordHash _passwordHash;
 
         private readonly List<DirectoryTab> _directoryTabs = new();
+        private readonly List<Tab> _tabs = new();
 
         private ApplicationUser()
         {

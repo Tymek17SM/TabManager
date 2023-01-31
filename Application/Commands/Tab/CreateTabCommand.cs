@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.Tab
 {
-    public record CreateTabCommand(string Name, string Link, string Description, Guid? DirectoryId) : IRequest
+    public record CreateTabCommand(string Name, string Link, string Description, Guid DirectoryTabId) : IRequest
     {
 
     }

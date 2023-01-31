@@ -45,6 +45,11 @@ namespace Infrastructure.EF.Config
                 value => new DirectoryTabId(value)
                 );
 
+            var applicationUserIdConvert = new ValueConverter<ApplicationUserId, Guid>(
+                user => user.Value,
+                value => new(value)
+                );
+
             builder.HasKey(tab => tab.Id);
 
             builder
@@ -81,7 +86,20 @@ namespace Infrastructure.EF.Config
 
             builder
                 .HasOne(typeof(DirectoryTab), "_directoryTab")
-                .WithMany("_tabs");
+                .WithMany("_tabs")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .Property<ApplicationUserId>("OwnerId")
+                .HasConversion(applicationUserIdConvert)
+                .IsRequired(true);
+
+            builder
+                .HasOne(typeof(ApplicationUser), "_owner")
+                .WithMany("_tabs")
+                .HasForeignKey("OwnerId")
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             builder.ToTable(TableNames.TabTable);
         }
@@ -119,12 +137,6 @@ namespace Infrastructure.EF.Config
                 .HasColumnName("SuperiorDirectoryId")
                 .IsRequired(false);
 
-            //builder
-            //    .Property(typeof(DirectoryTabId), "_subordinateDirectoryId")
-            //    .HasConversion(directoryTabIdConverter)
-            //    .HasColumnName("SubordinateDirectoryId")
-            //    .IsRequired(false);
-
             builder
                 .Property(typeof(DateTime), "_created")
                 .HasColumnName("Created");
@@ -138,9 +150,6 @@ namespace Infrastructure.EF.Config
                 .WithOne()
                 .HasForeignKey("_superiorDirectoryId")
                 .OnDelete(DeleteBehavior.Cascade);
-
-            //builder
-            //    .HasMany(typeof(Tab), "_tabs");
 
             builder.ToTable(TableNames.DirectoryTabTable);
         }

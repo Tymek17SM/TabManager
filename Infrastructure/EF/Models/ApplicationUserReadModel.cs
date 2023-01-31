@@ -20,6 +20,7 @@ namespace Infrastructure.EF.Models
         public DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public ICollection<DirectoryTabReadModel> DirectoryTabs { get; set; }
+        public ICollection<TabReadModel> Tabs { get; set; } 
 
         void IMap.Mapping(Profile profile)
         {
