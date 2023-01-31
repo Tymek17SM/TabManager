@@ -38,7 +38,7 @@ namespace Infrastructure.EF.QueryHandlers.Tab
             return await _tabs
                 .Where(tab => tab.Id == request.id)
                 .ProjectTo<TabDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
             #pragma warning restore CS8603 // Possible null reference return.
         }

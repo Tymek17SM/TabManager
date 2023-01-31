@@ -31,7 +31,7 @@ namespace Infrastructure.EF.Repositories
         {
             #pragma warning disable CS8603 // Possible null reference return.
 
-            return await _users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            return await _users.Where(u => u.Id == id).SingleOrDefaultAsync();
 
             #pragma warning restore CS8603 // Possible null reference return.
         }

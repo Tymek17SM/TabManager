@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Exceptions
+namespace Infrastructure.Exceptions.DirectoryTab
 {
     internal class DirectoryTabExistsException : DirectoryTabException
     {

@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Application.CommandHandlers.DirectoryTab
 {
-    internal sealed class MoveSubordinateDirectoryTabCommandHandler
-        : IRequestHandler<MoveSubordinateDirectoryTabCommand>
+    internal sealed class MoveDirectoryTabCommandHandler
+        : IRequestHandler<MoveDirectoryTabCommand>
     {
         private readonly IDirectoryTabReadService _service;
         private readonly IDirectoryTabRepository _repository;
 
-        public MoveSubordinateDirectoryTabCommandHandler(
+        public MoveDirectoryTabCommandHandler(
             IDirectoryTabReadService service, 
             IDirectoryTabRepository repository
             )
@@ -26,7 +26,7 @@ namespace Application.CommandHandlers.DirectoryTab
             _repository = repository;
         }
 
-        async Task<Unit> IRequestHandler<MoveSubordinateDirectoryTabCommand, Unit>.Handle(MoveSubordinateDirectoryTabCommand request, CancellationToken cancellationToken)
+        async Task<Unit> IRequestHandler<MoveDirectoryTabCommand, Unit>.Handle(MoveDirectoryTabCommand request, CancellationToken cancellationToken)
         {
             var (SuperiorDirectoryId, SubordinateDirectoryId) = request;
 
@@ -35,6 +35,8 @@ namespace Application.CommandHandlers.DirectoryTab
 
             var superiorDirectoryTab = await _repository.GetByIdAsync(SuperiorDirectoryId);
             var subordinateDirectoryTab = await _repository.GetByIdAsync(SubordinateDirectoryId);
+
+            await _service.MainDirectoryTab(subordinateDirectoryTab.Id, true);
 
             superiorDirectoryTab.AddSubordinateDirectory(subordinateDirectoryTab);
 

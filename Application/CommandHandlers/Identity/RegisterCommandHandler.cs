@@ -2,6 +2,7 @@
 using Application.Interfaces.ReadServices;
 using Domain.Entities;
 using Domain.Factories.ApplicationUsers;
+using Domain.Factories.DirectoryTabs;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -20,14 +21,22 @@ namespace Application.CommandHandlers.Identity
         private readonly IApplicationUserFactory _factory;
         private readonly IApplicationUserRepository _repository;
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly IDirectoryTabReadService _directoryTabReadService;
+        private readonly IDirectoryTabRepository _directoryTabRepository;
+        private readonly IDirectoryTabFactory _directoryTabFactory;
 
         public RegisterCommandHandler(IApplicationUserReadService service, IApplicationUserFactory factory, 
-            IApplicationUserRepository repository, IPasswordHasher<ApplicationUser> passwordHasher)
+            IApplicationUserRepository repository, IPasswordHasher<ApplicationUser> passwordHasher,
+            IDirectoryTabReadService directoryTabReadService, IDirectoryTabRepository directoryTabRepository,
+            IDirectoryTabFactory directoryTabFactory)
         {
             _service = service;
             _factory = factory;
             _repository = repository;
             _passwordHasher = passwordHasher;
+            _directoryTabReadService = directoryTabReadService;
+            _directoryTabRepository = directoryTabRepository;
+            _directoryTabFactory = directoryTabFactory;
         }
 
         async Task<Unit> IRequestHandler<RegisterCommand, Unit>.Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -44,7 +53,11 @@ namespace Application.CommandHandlers.Identity
             newUser.SetPassword(passwordHash);
 
             await _repository.CreateAsync(newUser);
+            
+            var userMainDirectory = _directoryTabFactory.CreateMainDirectory(newUser, name);
 
+            await _directoryTabRepository.AddAsync(userMainDirectory);
+            
             return Unit.Value;
         }
     }

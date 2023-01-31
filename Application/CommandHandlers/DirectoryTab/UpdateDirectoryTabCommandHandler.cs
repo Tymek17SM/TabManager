@@ -15,27 +15,27 @@ namespace Application.CommandHandlers.DirectoryTab
     {
         private readonly IDirectoryTabRepository _directoryTabRepository;
         private readonly IDirectoryTabReadService _directoryTabReadService;
+        private readonly IUserResolverService _userResolverService;
 
-        public UpdateDirectoryTabCommandHandler(IDirectoryTabRepository directoryTabRepository, IDirectoryTabReadService directoryTabReadService)
+        public UpdateDirectoryTabCommandHandler(IDirectoryTabRepository directoryTabRepository, 
+            IDirectoryTabReadService directoryTabReadService, IUserResolverService userResolverService)
         {
             _directoryTabRepository = directoryTabRepository;
             _directoryTabReadService = directoryTabReadService;
+            _userResolverService = userResolverService;
         }
 
         async Task<Unit> IRequestHandler<UpdateDirectoryTabCommand, Unit>.Handle(UpdateDirectoryTabCommand request, CancellationToken cancellationToken)
         {
-            var directoryTabExists = await _directoryTabReadService.ExistsByIdAsync(request.Id);
+            await _directoryTabReadService.ExistsByIdAsync(request.Id, true);
 
-            if (!directoryTabExists)
-            {
-                throw new Exception("Test!");
-            }
+            var directoryTab = await _directoryTabRepository.GetByIdAsync(request.Id);
 
-            var dir = await _directoryTabRepository.GetByIdAsync(request.Id);
+            await _directoryTabReadService.UserOwnerDirectoryTab(directoryTab.Id, _userResolverService.GetUserId(), true);
 
-            dir.EditName(request.Name);
+            directoryTab.EditName(request.Name);
 
-            await _directoryTabRepository.UpdateAsync(dir);
+            await _directoryTabRepository.UpdateAsync(directoryTab);
 
             return Unit.Value;
         }

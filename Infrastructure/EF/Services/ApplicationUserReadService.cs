@@ -50,36 +50,19 @@ namespace Infrastructure.EF.Services
                 : false;
         }
 
-        async Task<Guid> IApplicationUserReadService.GetByNameAsync(string name)
+        async Task<Guid> IApplicationUserReadService.GetIdByNameAsync(string name)
         {
             var user = await _users.SingleOrDefaultAsync(u => u.Name == name);
             return user.Id;
         }
 
-        async Task<JwtSecurityToken> IApplicationUserReadService.GenerateJwtTokenAsync(Guid id)
+        async Task<Guid> IApplicationUserReadService.GetUserMainDirectoryTabId(Guid userId)
         {
-            var user = await _users.SingleOrDefaultAsync(_ => _.Id == id);
+            var users = _context.ApplicationUsers.Include(u => u.DirectoryTabs);
 
-            var jwtOptions = _configuration.GetSettings<JwtOptions>("JWT");
-
-            var authClaims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey));
-
-            var token = new JwtSecurityToken(
-                issuer: jwtOptions.Issuer,
-                audience: jwtOptions.Audience,
-                claims: authClaims,
-                expires: DateTime.Now.AddDays(2),
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            return token;
+            var user = await users.Where(u => u.Id == userId).SingleOrDefaultAsync();
+            
+            return user.DirectoryTabs.Where(dir => dir.MainDirectory).SingleOrDefault().Id;
         }
     }
 }

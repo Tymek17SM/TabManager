@@ -37,7 +37,7 @@ namespace Infrastructure.EF.QueryHandlers.DirectoryTab
             return await _directoryTabs
                 .Where(dir => dir.Id == request.id)
                 .ProjectTo<DirectoryTabDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
             #pragma warning restore CS8603 // Possible null reference return.
         }

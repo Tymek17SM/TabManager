@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.DirectoryTab
 {
-    public record CreateDirectoryTabCommand(string Name) : IRequest<Guid>
+    public record CreateDirectoryTabCommand(string Name, Guid SuperiorDirectoryTabId) : IRequest<Guid>
     {
+
     }
 }

@@ -13,7 +13,7 @@ namespace Application.Interfaces.ReadServices
         Task<bool> ExistsByIdAsync(Guid id, bool withException = false);
         Task<bool> ExistsByNameAsync(string name, bool exists, bool withException = false);
         Task<bool> ExistsByMailAsync(string mail, bool withException = false);
-        Task<Guid> GetByNameAsync(string name);
-        Task<JwtSecurityToken> GenerateJwtTokenAsync(Guid id);
+        Task<Guid> GetIdByNameAsync(string name);
+        Task<Guid> GetUserMainDirectoryTabId(Guid userId);
     }
 }

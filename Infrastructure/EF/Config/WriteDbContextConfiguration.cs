@@ -136,7 +136,8 @@ namespace Infrastructure.EF.Config
             builder
                 .HasMany("_subordinateDirectories")
                 .WithOne()
-                .HasForeignKey("_superiorDirectoryId");
+                .HasForeignKey("_superiorDirectoryId")
+                .OnDelete(DeleteBehavior.Cascade);
 
             //builder
             //    .HasMany(typeof(Tab), "_tabs");

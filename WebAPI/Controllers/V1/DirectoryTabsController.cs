@@ -56,15 +56,15 @@ namespace WebAPI.Controllers.V1
             return NoContent();
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> CreateSubordinateDirectoryTab(CreateSubordinateDirectoryTabCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return Created($"api/DirectoryTab/{result}", null);
-        }
+        //[HttpPost("[action]")]
+        //public async Task<IActionResult> CreateSubordinateDirectoryTab(CreateSubordinateDirectoryTabCommand command)
+        //{
+        //    var result = await _mediator.Send(command);
+        //    return Created($"api/DirectoryTab/{result}", null);
+        //}
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> MoveSubordinateDirectoryTab(MoveSubordinateDirectoryTabCommand command)
+        public async Task<IActionResult> MoveDirectoryTab(MoveDirectoryTabCommand command)
         {
             await _mediator.Send(command);
             return NoContent();

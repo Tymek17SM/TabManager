@@ -9,7 +9,7 @@ namespace Domain.Factories.DirectoryTabs
 {
     internal sealed class DirectoryTabFactory : IDirectoryTabFactory
     {
-        public DirectoryTab Create(string directoryTabName, ApplicationUser owner, string ownerName)
+        DirectoryTab IDirectoryTabFactory.Create(string directoryTabName, ApplicationUser owner, string ownerName)
         {
             return new DirectoryTab(
                 Guid.NewGuid(),
@@ -17,6 +17,17 @@ namespace Domain.Factories.DirectoryTabs
                 DateTime.Now,
                 ownerName,
                 owner);
+        }
+
+        DirectoryTab IDirectoryTabFactory.CreateMainDirectory(ApplicationUser owner, string ownerName)
+        {
+            return new DirectoryTab(
+                Guid.NewGuid(),
+                $"Main_{ownerName}_{owner.Id.Value}",
+                DateTime.Now,
+                ownerName,
+                owner,
+                true);
         }
     }
 }

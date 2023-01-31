@@ -10,5 +10,7 @@ namespace Application.Interfaces.ReadServices
     public interface IDirectoryTabReadService : IApplicationReadService
     {
         Task<bool> ExistsByIdAsync(Guid Id, bool withException = false);
+        Task<bool> UserOwnerDirectoryTab(Guid directoryTabId, Guid userId, bool withException = false);
+        Task<bool> MainDirectoryTab(Guid directoryTabId, bool withException = false);
     }
 }

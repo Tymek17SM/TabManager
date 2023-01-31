@@ -29,7 +29,7 @@ namespace Infrastructure.EF.Repositories
 
         public async Task<DirectoryTab> GetByIdAsync(DirectoryTabId directoryTabId)
         {
-            return await _directoryTabs.FirstOrDefaultAsync(tab => tab.Id == directoryTabId);
+            return await _directoryTabs.SingleOrDefaultAsync(tab => tab.Id == directoryTabId);
         }
 
         public async Task AddAsync(DirectoryTab newDirectoryTab)

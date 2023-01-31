@@ -37,6 +37,17 @@ namespace Domain.Entities
             _owner = owner;
         }
 
+        internal DirectoryTab(DirectoryTabId id, DirectoryTabName directoryName, DateTime created, string createdBy,
+            ApplicationUser owner, bool mainDirectory = false)
+        {
+            Id = id;
+            _directoryName = directoryName;
+            _created = created;
+            _createdBy = createdBy;
+            _owner = owner;
+            _mainDirectory = mainDirectory;
+        }
+
         public void AddTabToDirectory(Tab tab)
         {
             _tabs.Add(tab);

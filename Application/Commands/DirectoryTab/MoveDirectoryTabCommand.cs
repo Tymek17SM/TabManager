@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.DirectoryTab
 {
-    public record CreateSubordinateDirectoryTabCommand(Guid SuperiorDirectoryId, string Name) : IRequest<Guid>
+    public record MoveDirectoryTabCommand(Guid SuperiorDirectoryId, Guid SubordinateDirectoryId) : IRequest
     {
     }
 }

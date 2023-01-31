@@ -42,7 +42,7 @@ namespace Application.CommandHandlers.Identity
 
             await _service.ExistsByNameAsync(name, true, true);
 
-            var userId = await _service.GetByNameAsync(name);
+            var userId = await _service.GetIdByNameAsync(name);
 
             var user = await _repository.GetByIdAsync(userId);
 

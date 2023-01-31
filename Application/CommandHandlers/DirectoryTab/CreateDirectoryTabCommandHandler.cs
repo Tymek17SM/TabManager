@@ -17,31 +17,54 @@ namespace Application.CommandHandlers.DirectoryTab
     {
         private readonly IDirectoryTabRepository _directoryTabRepository;
         private readonly IDirectoryTabFactory _directoryTabFactory;
-        private readonly IUserResolverService _userService;
+        private readonly IDirectoryTabReadService _directoryTabReadService;
+        private readonly IUserResolverService _userResolverService;
         private readonly IApplicationUserRepository _applicationUserRepository;
+        private readonly IApplicationUserReadService _applicationUserReadService;
         
         public CreateDirectoryTabCommandHandler(IDirectoryTabRepository directoryTabRepository, 
-            IDirectoryTabFactory directoryTabFactory, IUserResolverService userService,
-            IApplicationUserRepository applicationUserRepository)
+            IDirectoryTabFactory directoryTabFactory, IDirectoryTabReadService directoryTabReadService,
+            IUserResolverService userResolverService, IApplicationUserRepository applicationUserRepository, 
+            IApplicationUserReadService applicationUserReadService)
         {
             _directoryTabRepository = directoryTabRepository;
             _directoryTabFactory = directoryTabFactory;
-            _userService = userService;
+            _directoryTabReadService = directoryTabReadService;
+            _userResolverService = userResolverService;
             _applicationUserRepository = applicationUserRepository;
+            _applicationUserReadService = applicationUserReadService;
         }
 
         async Task<Guid> IRequestHandler<CreateDirectoryTabCommand, Guid>.Handle(CreateDirectoryTabCommand request, CancellationToken cancellationToken)
         {
-            var userName = _userService.GetUserName();
-            var userId = _userService.GetUserId();
+            var (directoryTabNameFromRequest, SuperiorDirectoryTabIdFromRequest) = request;
 
-            var user = await _applicationUserRepository.GetByIdAsync(userId);
+            var userNameFromToken = _userResolverService.GetUserName();
+            var userIdFromToken = _userResolverService.GetUserId();
 
-            var dir = _directoryTabFactory.Create(request.Name, user, userName);
+            var applicationUser = await _applicationUserRepository.GetByIdAsync(userIdFromToken);
 
-            await _directoryTabRepository.AddAsync(dir);
+            bool toMainDirectoryTab = true;
 
-            return (Guid)dir.Id;
+            if(SuperiorDirectoryTabIdFromRequest != Guid.Empty)
+            {
+                await _directoryTabReadService.ExistsByIdAsync(SuperiorDirectoryTabIdFromRequest, true);
+                toMainDirectoryTab = false;
+            }
+
+            var newDirectoryTab = _directoryTabFactory.Create(directoryTabNameFromRequest, applicationUser, userNameFromToken);
+
+            var superiorDirectoryTabId = toMainDirectoryTab
+                ? await _applicationUserReadService.GetUserMainDirectoryTabId(applicationUser.Id)
+                : SuperiorDirectoryTabIdFromRequest;
+
+            var superiorDirectoryTab = await _directoryTabRepository.GetByIdAsync(superiorDirectoryTabId);
+
+            superiorDirectoryTab.AddSubordinateDirectory(newDirectoryTab);
+
+            await _directoryTabRepository.AddAsync(newDirectoryTab);
+
+            return (Guid)newDirectoryTab.Id;
         }
     }
 }

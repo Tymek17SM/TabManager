@@ -14,23 +14,25 @@ namespace Application.CommandHandlers.DirectoryTab
     {
         private readonly IDirectoryTabRepository _directoryTabRepository;
         private readonly IDirectoryTabReadService _directoryTabReadService;
+        private readonly IUserResolverService _userResolverService;
 
-        public DeleteDirectoryTabCommandHandler(IDirectoryTabRepository directoryTabRepository, IDirectoryTabReadService directoryTabReadService)
+        public DeleteDirectoryTabCommandHandler(IDirectoryTabRepository directoryTabRepository, 
+            IDirectoryTabReadService directoryTabReadService, IUserResolverService userResolverService)
         {
             _directoryTabRepository = directoryTabRepository;
             _directoryTabReadService = directoryTabReadService;
+            _userResolverService = userResolverService;
         }
 
         async Task<Unit> IRequestHandler<DeleteDirectoryTabCommand, Unit>.Handle(DeleteDirectoryTabCommand request, CancellationToken cancellationToken)
         {
-            var dirExusts = await _directoryTabReadService.ExistsByIdAsync(request.Id);
+            await _directoryTabReadService.UserOwnerDirectoryTab(request.Id, _userResolverService.GetUserId(), true);
 
-            if(!dirExusts)
-            {
-                throw new Exception("Test!");
-            }
+            await _directoryTabReadService.ExistsByIdAsync(request.Id, true);
 
             var dir = await _directoryTabRepository.GetByIdAsync(request.Id);
+
+            await _directoryTabReadService.MainDirectoryTab(dir.Id, true);
 
             await _directoryTabRepository.DeleteAsync(dir);
             return Unit.Value;
