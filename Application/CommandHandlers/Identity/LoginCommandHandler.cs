@@ -7,6 +7,7 @@ using Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -25,15 +26,18 @@ namespace Application.CommandHandlers.Identity
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
         private readonly IJwtTokenFactory _jwtFactory;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<LoginCommandHandler> _logger;
 
         public LoginCommandHandler(IApplicationUserReadService service, IApplicationUserRepository repository, 
-            IPasswordHasher<ApplicationUser> passwordHasher, IJwtTokenFactory jwtFactory, IConfiguration configuration)
+            IPasswordHasher<ApplicationUser> passwordHasher, IJwtTokenFactory jwtFactory, IConfiguration configuration,
+            ILogger<LoginCommandHandler> logger)
         {
             _service = service;
             _repository = repository;
             _passwordHasher = passwordHasher;
             _jwtFactory = jwtFactory;
             _configuration = configuration;
+            _logger = logger;
         }
 
         async Task<string> IRequestHandler<LoginCommand, string>.Handle(LoginCommand request, CancellationToken cancellationToken)

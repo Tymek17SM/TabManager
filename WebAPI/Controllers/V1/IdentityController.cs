@@ -10,9 +10,12 @@ namespace WebAPI.Controllers.V1
     public class IdentityController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public IdentityController(IMediator mediator)
+        private readonly Serilog.ILogger _logger;
+
+        public IdentityController(IMediator mediator, Serilog.ILogger logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpPost("[action]")]

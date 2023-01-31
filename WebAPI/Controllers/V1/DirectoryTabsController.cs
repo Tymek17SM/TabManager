@@ -5,6 +5,7 @@ using Application.Queries.Tab;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace WebAPI.Controllers.V1
 {
@@ -14,10 +15,12 @@ namespace WebAPI.Controllers.V1
     public class DirectoryTabsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly Serilog.ILogger _logger;
 
-        public DirectoryTabsController(IMediator mediator)
+        public DirectoryTabsController(IMediator mediator, Serilog.ILogger logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet("[action]")]
