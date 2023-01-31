@@ -31,17 +31,16 @@ namespace Application.CommandHandlers.Tab
 
         async Task<Unit> IRequestHandler<UpdateTabCommand, Unit>.Handle(UpdateTabCommand request, CancellationToken cancellationToken)
         {
-            var (Id, Name, Link, Description) = request;
-
+            var (tabIdFromRequest, Name, Link, Description) = request;
             var userIdFromToken = _userResolverService.GetUserId();
+
+            await _tabReadService.ExistsByIdAsync(tabIdFromRequest, true);
 
             await _applicationUserReadService.ExistsByIdAsync(userIdFromToken, true);
 
-            await _tabReadService.ExistsByIdAsync(Id, true);
+            await _tabReadService.UserOwnerTab(tabIdFromRequest, userIdFromToken, true);
 
-            await _tabReadService.UserOwnerTab(Id, userIdFromToken, true);
-
-            var tab = await _tabRepository.GetByIdAsync(Id);
+            var tab = await _tabRepository.GetByIdAsync(tabIdFromRequest);
 
             tab.Update(Name, Link, Description);
 

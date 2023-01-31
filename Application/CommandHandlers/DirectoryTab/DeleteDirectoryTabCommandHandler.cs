@@ -26,15 +26,16 @@ namespace Application.CommandHandlers.DirectoryTab
 
         async Task<Unit> IRequestHandler<DeleteDirectoryTabCommand, Unit>.Handle(DeleteDirectoryTabCommand request, CancellationToken cancellationToken)
         {
-            await _directoryTabReadService.UserOwnerDirectoryTab(request.Id, _userResolverService.GetUserId(), true);
-
             await _directoryTabReadService.ExistsByIdAsync(request.Id, true);
+
+            await _directoryTabReadService.UserOwnerDirectoryTab(request.Id, _userResolverService.GetUserId(), true);
 
             var dir = await _directoryTabRepository.GetByIdAsync(request.Id);
 
             await _directoryTabReadService.MainDirectoryTab(dir.Id, true);
 
             await _directoryTabRepository.DeleteAsync(dir);
+
             return Unit.Value;
         }
     }

@@ -31,8 +31,6 @@ namespace Infrastructure.EF.Services
 
         public async Task<bool> UserOwnerDirectoryTab(Guid directoryTabId, Guid userId, bool withException = false)
         {
-            await this.ExistsByIdAsync(directoryTabId, true);
-
             var directoryTab = await _context.Directory.Include(dir => dir.Owner)
                 .SingleOrDefaultAsync(dir => dir.Id == directoryTabId);
 
@@ -44,8 +42,6 @@ namespace Infrastructure.EF.Services
 
         public async Task<bool> MainDirectoryTab(Guid directoryTabId, bool withException = false)
         {
-            await this.ExistsByIdAsync(directoryTabId, true);
-
             var directoryTab = await _directoryTab.SingleOrDefaultAsync(dir => dir.Id == directoryTabId);
 
             return directoryTab.MainDirectory ? throw new MainDirectoryTabException() : false;

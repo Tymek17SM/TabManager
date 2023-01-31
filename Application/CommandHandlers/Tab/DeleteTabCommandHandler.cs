@@ -32,9 +32,9 @@ namespace Application.CommandHandlers.Tab
         {
             var userIdFromToken = _userResolverService.GetUserId();
 
-            await _applicationUserReadService.ExistsByIdAsync(userIdFromToken, true);
-
             await _tabReadService.ExistsByIdAsync(request.Id, true);
+
+            await _applicationUserReadService.ExistsByIdAsync(userIdFromToken, true);
 
             await _tabReadService.UserOwnerTab(request.Id, userIdFromToken, true);
 

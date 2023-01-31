@@ -27,13 +27,15 @@ namespace Application.CommandHandlers.DirectoryTab
 
         async Task<Unit> IRequestHandler<UpdateDirectoryTabCommand, Unit>.Handle(UpdateDirectoryTabCommand request, CancellationToken cancellationToken)
         {
-            await _directoryTabReadService.ExistsByIdAsync(request.Id, true);
+            var (directoryTabIdFromRequest, newNameFromRequest) = request;
 
-            var directoryTab = await _directoryTabRepository.GetByIdAsync(request.Id);
+            await _directoryTabReadService.ExistsByIdAsync(directoryTabIdFromRequest, true);
 
-            await _directoryTabReadService.UserOwnerDirectoryTab(directoryTab.Id, _userResolverService.GetUserId(), true);
+            await _directoryTabReadService.UserOwnerDirectoryTab(directoryTabIdFromRequest, _userResolverService.GetUserId(), true);
 
-            directoryTab.EditName(request.Name);
+            var directoryTab = await _directoryTabRepository.GetByIdAsync(directoryTabIdFromRequest);
+
+            directoryTab.EditName(newNameFromRequest);
 
             await _directoryTabRepository.UpdateAsync(directoryTab);
 

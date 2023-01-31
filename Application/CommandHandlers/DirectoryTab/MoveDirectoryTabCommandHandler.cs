@@ -16,22 +16,30 @@ namespace Application.CommandHandlers.DirectoryTab
     {
         private readonly IDirectoryTabReadService _service;
         private readonly IDirectoryTabRepository _repository;
+        private readonly IUserResolverService _userResolverService;
 
         public MoveDirectoryTabCommandHandler(
             IDirectoryTabReadService service, 
-            IDirectoryTabRepository repository
+            IDirectoryTabRepository repository,
+            IUserResolverService userResolverService
             )
         {
             _service = service;
             _repository = repository;
+            _userResolverService = userResolverService;
         }
 
         async Task<Unit> IRequestHandler<MoveDirectoryTabCommand, Unit>.Handle(MoveDirectoryTabCommand request, CancellationToken cancellationToken)
         {
             var (SuperiorDirectoryId, SubordinateDirectoryId) = request;
 
+            var userIdFromToken = _userResolverService.GetUserId();
+
             await _service.ExistsByIdAsync(SuperiorDirectoryId);
             await _service.ExistsByIdAsync(SubordinateDirectoryId);
+
+            await _service.UserOwnerDirectoryTab(SuperiorDirectoryId, userIdFromToken, true);
+            await _service.UserOwnerDirectoryTab(SubordinateDirectoryId, userIdFromToken, true);
 
             var superiorDirectoryTab = await _repository.GetByIdAsync(SuperiorDirectoryId);
             var subordinateDirectoryTab = await _repository.GetByIdAsync(SubordinateDirectoryId);
