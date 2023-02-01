@@ -27,11 +27,10 @@ namespace WebAPI.Controllers.V1
         }
 
         [HttpGet("[action]")]
-        [CachedReddis(600)]
-        public async Task<IActionResult> GetAllDirectoryTabs()
+        [CachedReddis(15)]
+        public async Task<IActionResult> GetAllDirectoryTabs([FromQuery] GetAllDirectoryTabQuery query)
         {
-            var querry = new GetAllDirectoryTabQuery();
-            var result = await _mediator.Send(querry);
+            var result = await _mediator.Send(query);
             return Ok(new Response<IEnumerable<DirectoryTabDto>>(result));
         }
 

@@ -3,6 +3,7 @@ using Application.Interfaces.ReadServices;
 using Application.Queries.Tab;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain.Entities;
 using Infrastructure.EF.Context;
 using Infrastructure.EF.Models;
 using MediatR;
@@ -33,11 +34,22 @@ namespace Infrastructure.EF.QueryHandlers.Tab
         {
             var userId = _userResolverService.GetUserId();
 
-            return await _tabs
-                .Include(tab => tab.DirectoryTab)
+            var dbQuery = _tabs
                 .Include(tab => tab.Owner)
+                .Include(tab => tab.DirectoryTab)
                 .Where(tab => tab.Owner.Id == userId)
+                .AsQueryable();
+
+            if (request.searchPchrase is not null)
+            {
+                dbQuery = dbQuery
+                    .Where(tab => Microsoft.EntityFrameworkCore.EF.Functions.Like(tab.Name, $"%{request.searchPchrase}%")
+                    || Microsoft.EntityFrameworkCore.EF.Functions.Like(tab.Description, $"%{request.searchPchrase}%"));
+            }
+
+            return await dbQuery
                 .ProjectTo<TabDto>(_mapper.ConfigurationProvider)
+                .AsNoTracking()
                 .ToListAsync();
         }
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Queries.Tab
 {
-    public record GetAllTabQuery : IRequest<IEnumerable<TabDto>>
+    public record GetAllTabQuery(string? searchPchrase) : IRequest<IEnumerable<TabDto>>
     {
     }
 }

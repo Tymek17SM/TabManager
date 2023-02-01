@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Queries.DirectoryTab
 {
-    public record GetAllDirectoryTabQuery : IRequest<IEnumerable<DirectoryTabDto>>
+    public record GetAllDirectoryTabQuery(string? searchPchrase) : IRequest<IEnumerable<DirectoryTabDto>>
     {
     }
 }

@@ -32,12 +32,27 @@ namespace Infrastructure.EF.QueryHandlers.DirectoryTab
         {
             var userId = _userResolverService.GetUserId();
 
-            return await _directoryTabs
-                .Where(dir => dir.Owner.Id == userId)
-                .Where(dir => dir.MainDirectory)
-                .Include(dir => dir.Tabs)
+            var dbQuery = _directoryTabs
                 .Include(dir => dir.Owner)
+                .Include(dir => dir.Tabs)
+                .Where(dir => dir.Owner.Id == userId)
+                .AsQueryable();
+
+            if(request.searchPchrase is not null)
+            {
+                dbQuery = dbQuery
+                    .Where(dir => !dir.MainDirectory)
+                    .Where(dir => Microsoft.EntityFrameworkCore.EF.Functions.Like(dir.Name, $"%{request.searchPchrase}%"));
+            }
+            else
+            {
+                dbQuery = dbQuery
+                    .Where(dir => dir.MainDirectory);
+            }
+
+            return await dbQuery
                 .ProjectTo<DirectoryTabDto>(_mapper.ConfigurationProvider)
+                .AsNoTracking()
                 .ToListAsync();
         }
     }
