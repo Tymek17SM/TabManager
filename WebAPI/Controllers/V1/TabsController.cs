@@ -1,9 +1,11 @@
 ﻿using Application.Cache;
 using Application.Commands.Tab;
+using Application.Dto;
 using Application.Queries.Tab;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Wrappers;
 
 namespace WebAPI.Controllers.V1
 {
@@ -24,21 +26,21 @@ namespace WebAPI.Controllers.V1
         {
             var querry = new GetAllTabQuery();
             var tabsDto = await _mediator.Send(querry);
-            return Ok(tabsDto);
+            return Ok(new Response<IEnumerable<TabDto>>(tabsDto));
         }
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] GetByIdTabQuery query)
         {
-            var resulu = await _mediator.Send(query);
-            return Ok(resulu);
+            var result = await _mediator.Send(query);
+            return Ok(new Response<TabDto>(result));
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateTabAsync(CreateTabCommand command)
         {
             await _mediator.Send(command);
-            return Created("sss", new object());
+            return Created("api/tab/id", new object());
         }
 
         [HttpPut]

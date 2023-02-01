@@ -1,5 +1,6 @@
 ﻿using Application.Cache;
 using Application.Commands.DirectoryTab;
+using Application.Dto;
 using Application.Queries;
 using Application.Queries.DirectoryTab;
 using Application.Queries.Tab;
@@ -7,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using WebAPI.Wrappers;
 
 namespace WebAPI.Controllers.V1
 {
@@ -30,14 +32,14 @@ namespace WebAPI.Controllers.V1
         {
             var querry = new GetAllDirectoryTabQuery();
             var result = await _mediator.Send(querry);
-            return Ok(result);
+            return Ok(new Response<IEnumerable<DirectoryTabDto>>(result));
         }
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] GetByIdDirectoryTabQuery query)
         {
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return Ok(new Response<DirectoryTabDto>(result));
         }
 
         [HttpPost]
@@ -60,13 +62,6 @@ namespace WebAPI.Controllers.V1
             await _mediator.Send(command);
             return NoContent();
         }
-
-        //[HttpPost("[action]")]
-        //public async Task<IActionResult> CreateSubordinateDirectoryTab(CreateSubordinateDirectoryTabCommand command)
-        //{
-        //    var result = await _mediator.Send(command);
-        //    return Created($"api/DirectoryTab/{result}", null);
-        //}
 
         [HttpPut("[action]")]
         public async Task<IActionResult> MoveDirectoryTab(MoveDirectoryTabCommand command)

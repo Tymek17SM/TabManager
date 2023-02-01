@@ -4,6 +4,7 @@ using Application.Interfaces.ReadServices;
 using Infrastructure;
 using MediatR;
 using System.Reflection;
+using WebAPI.Middlewares;
 
 namespace WebAPI.Installers
 {
@@ -22,6 +23,8 @@ namespace WebAPI.Installers
             services.AddControllers();
 
             services.AddAuthorization();
+
+            services.AddScoped<ErrorHandlingMiddleware>();
         }
     }
 }
