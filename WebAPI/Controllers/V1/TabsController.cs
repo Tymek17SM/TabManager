@@ -1,4 +1,5 @@
-﻿using Application.Commands.Tab;
+﻿using Application.Cache;
+using Application.Commands.Tab;
 using Application.Queries.Tab;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,7 @@ namespace WebAPI.Controllers.V1
         }
 
         [HttpGet]
+        [CachedReddis(600)]
         public async Task<IActionResult> GetAllAsync()
         {
             var querry = new GetAllTabQuery();

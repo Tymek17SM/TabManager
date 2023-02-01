@@ -1,4 +1,5 @@
-﻿using Application.Commands.DirectoryTab;
+﻿using Application.Cache;
+using Application.Commands.DirectoryTab;
 using Application.Queries;
 using Application.Queries.DirectoryTab;
 using Application.Queries.Tab;
@@ -24,6 +25,7 @@ namespace WebAPI.Controllers.V1
         }
 
         [HttpGet("[action]")]
+        [CachedReddis(600)]
         public async Task<IActionResult> GetAllDirectoryTabs()
         {
             var querry = new GetAllDirectoryTabQuery();

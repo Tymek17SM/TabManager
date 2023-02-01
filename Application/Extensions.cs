@@ -1,4 +1,6 @@
-﻿using Application.Interfaces.ReadServices;
+﻿using Application.Interfaces;
+using Application.Interfaces.ReadServices;
+using Application.Services;
 using Domain.Entities;
 using Domain.Factories.DirectoryTabs;
 using Domain.Factories.Tabs;
@@ -25,6 +27,7 @@ namespace Application
             .WithSingletonLifetime());
 
             services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
+            services.AddScoped<IResponseCacheService, ResponseCacheService>();
 
             return services;
         }

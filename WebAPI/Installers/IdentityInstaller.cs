@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WebAPI.Installers
 {
-    public class IdentityInstaller : IInstaller
+    internal sealed class IdentityInstaller : IInstaller
     {
         void IInstaller.InstallServices(IServiceCollection services, ConfigurationManager configurationManager)
         {
