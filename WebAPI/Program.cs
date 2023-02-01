@@ -1,3 +1,5 @@
+using App.Metrics.AspNetCore;
+using App.Metrics.Formatters.Prometheus;
 using Serilog;
 using Serilog.Formatting.Json;
 using Serilog.Sinks.Elasticsearch;
@@ -33,6 +35,18 @@ builder.Host.UseSerilog((context, configuration) =>
     .Enrich.WithProperty("Enviroment", context.HostingEnvironment.EnvironmentName)
     .ReadFrom.Configuration(context.Configuration);
 
+});
+
+builder.Host.UseMetricsWebTracking()
+.UseMetrics(options =>
+{
+    options.EndpointOptions = endpointOptions =>
+    {
+        endpointOptions.MetricsTextEndpointOutputFormatter = new MetricsPrometheusTextOutputFormatter();
+        
+        endpointOptions.MetricsEndpointOutputFormatter = new MetricsPrometheusProtobufOutputFormatter();
+        endpointOptions.EnvironmentInfoEndpointEnabled = false;
+    };
 });
 
 var app = builder.Build();

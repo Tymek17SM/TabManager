@@ -17,6 +17,8 @@ namespace WebAPI.Installers
             services.AddApplication();
             services.AddInfrastructure(configurationManager);
 
+            services.AddMetrics();
+
             services.AddControllers();
 
             services.AddAuthorization();
