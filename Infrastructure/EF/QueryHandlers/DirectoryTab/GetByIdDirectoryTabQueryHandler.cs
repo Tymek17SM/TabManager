@@ -20,17 +20,22 @@ namespace Infrastructure.EF.QueryHandlers.DirectoryTab
         private readonly DbSet<DirectoryTabReadModel> _directoryTabs;
         private readonly IMapper _mapper;
         private readonly IDirectoryTabReadService _directoryTabReadService;
+        private readonly IUserResolverService _userResolverService;
 
-        public GetByIdDirectoryTabQueryHandler(ReadDbContext readDbContext, IMapper mapper, IDirectoryTabReadService directoryTabReadService)
+        public GetByIdDirectoryTabQueryHandler(ReadDbContext readDbContext, IMapper mapper, IDirectoryTabReadService directoryTabReadService,
+            IUserResolverService userResolverService)
         {
             _directoryTabs = readDbContext.Directory;
             _mapper = mapper;
             _directoryTabReadService = directoryTabReadService;
+            _userResolverService = userResolverService;
         }
 
         async Task<DirectoryTabDto> IRequestHandler<GetByIdDirectoryTabQuery, DirectoryTabDto>.Handle(GetByIdDirectoryTabQuery request, CancellationToken cancellationToken)
         {
             await _directoryTabReadService.ExistsByIdAsync(request.id, true);
+
+            await _directoryTabReadService.UserOwnerDirectoryTab(request.id, _userResolverService.GetUserId(), true);
 
             #pragma warning disable CS8603 // Possible null reference return.
 
