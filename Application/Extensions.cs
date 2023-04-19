@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Cache;
+using Application.Interfaces;
 using Application.Interfaces.ReadServices;
 using Application.Services;
 using Domain.Entities;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Abstractions.Domain;
+using Shared.Cache;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,7 @@ namespace Application
 {
     public static class Extensions
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.Scan(s => s.FromAssemblies(Assembly.Load("Domain"))
             .AddClasses(a => a.AssignableTo<IFactory>())
@@ -27,7 +29,8 @@ namespace Application
             .WithSingletonLifetime());
 
             services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
-            services.AddScoped<IResponseCacheService, ResponseCacheService>();
+
+            services.AddReddisCache(configuration);
 
             return services;
         }

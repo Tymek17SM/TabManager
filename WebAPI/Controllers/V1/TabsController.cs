@@ -21,7 +21,7 @@ namespace WebAPI.Controllers.V1
         }
 
         [HttpGet]
-        [CachedReddis(15)]
+        [CachedReddis(600)]
         public async Task<IActionResult> GetAllAsync([FromQuery] GetAllTabQuery query)
         {
             var tabsDto = await _mediator.Send(query);

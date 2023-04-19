@@ -54,6 +54,8 @@ namespace Application.CommandHandlers.Identity
 
             if (check == PasswordVerificationResult.Success)
             {
+                _logger.LogInformation($"User {user.Id} logged successfully!");
+
                 var token = _jwtFactory.GenerateJwtSecurityToken(user, _configuration);
 
                 return new JwtSecurityTokenHandler().WriteToken(token);

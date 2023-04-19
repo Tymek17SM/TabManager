@@ -29,7 +29,7 @@ namespace Application.CommandHandlers.DirectoryTab
             _userResolverService = userResolverService;
         }
 
-        async Task<Unit> IRequestHandler<MoveDirectoryTabCommand, Unit>.Handle(MoveDirectoryTabCommand request, CancellationToken cancellationToken)
+        async Task IRequestHandler<MoveDirectoryTabCommand>.Handle(MoveDirectoryTabCommand request, CancellationToken cancellationToken)
         {
             var (SuperiorDirectoryId, SubordinateDirectoryId) = request;
 
@@ -49,8 +49,6 @@ namespace Application.CommandHandlers.DirectoryTab
             superiorDirectoryTab.AddSubordinateDirectory(subordinateDirectoryTab);
 
             await _repository.UpdateAsync(superiorDirectoryTab);
-
-            return Unit.Value;
         }
     }
 }

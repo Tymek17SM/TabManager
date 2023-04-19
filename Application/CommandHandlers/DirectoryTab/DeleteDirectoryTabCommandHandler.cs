@@ -24,7 +24,7 @@ namespace Application.CommandHandlers.DirectoryTab
             _userResolverService = userResolverService;
         }
 
-        async Task<Unit> IRequestHandler<DeleteDirectoryTabCommand, Unit>.Handle(DeleteDirectoryTabCommand request, CancellationToken cancellationToken)
+        async Task IRequestHandler<DeleteDirectoryTabCommand>.Handle(DeleteDirectoryTabCommand request, CancellationToken cancellationToken)
         {
             await _directoryTabReadService.ExistsByIdAsync(request.Id, true);
 
@@ -35,8 +35,6 @@ namespace Application.CommandHandlers.DirectoryTab
             await _directoryTabReadService.MainDirectoryTab(dir.Id, true);
 
             await _directoryTabRepository.DeleteAsync(dir);
-
-            return Unit.Value;
         }
     }
 }

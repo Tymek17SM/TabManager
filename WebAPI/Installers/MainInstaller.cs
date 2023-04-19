@@ -15,7 +15,7 @@ namespace WebAPI.Installers
             // Add services to the container.
             //------------------------------
 
-            services.AddApplication();
+            services.AddApplication(configurationManager);
             services.AddInfrastructure(configurationManager);
 
             services.AddMetrics();

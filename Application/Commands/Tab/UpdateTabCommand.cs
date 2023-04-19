@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.Tab
 {
-    public record UpdateTabCommand(Guid Id, string Name, string Link, string Description) : IRequest
+    public record UpdateTabCommand(Guid Id, string? Name, string? Link, string? Description) : IRequest
     {
     }
 }

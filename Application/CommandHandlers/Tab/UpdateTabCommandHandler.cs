@@ -29,7 +29,7 @@ namespace Application.CommandHandlers.Tab
             _applicationUserReadService = applicationUserReadService;
         }
 
-        async Task<Unit> IRequestHandler<UpdateTabCommand, Unit>.Handle(UpdateTabCommand request, CancellationToken cancellationToken)
+        async Task IRequestHandler<UpdateTabCommand>.Handle(UpdateTabCommand request, CancellationToken cancellationToken)
         {
             var (tabIdFromRequest, Name, Link, Description) = request;
             var userIdFromToken = _userResolverService.GetUserId();
@@ -45,8 +45,6 @@ namespace Application.CommandHandlers.Tab
             tab.Update(Name, Link, Description);
 
             await _tabRepository.UpdateAsync(tab);
-
-            return await Unit.Task;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Application.CommandHandlers.DirectoryTab
             _userResolverService = userResolverService;
         }
 
-        async Task<Unit> IRequestHandler<UpdateDirectoryTabCommand, Unit>.Handle(UpdateDirectoryTabCommand request, CancellationToken cancellationToken)
+        async Task IRequestHandler<UpdateDirectoryTabCommand>.Handle(UpdateDirectoryTabCommand request, CancellationToken cancellationToken)
         {
             var (directoryTabIdFromRequest, newNameFromRequest) = request;
 
@@ -38,8 +38,6 @@ namespace Application.CommandHandlers.DirectoryTab
             directoryTab.EditName(newNameFromRequest);
 
             await _directoryTabRepository.UpdateAsync(directoryTab);
-
-            return Unit.Value;
         }
     }
 }

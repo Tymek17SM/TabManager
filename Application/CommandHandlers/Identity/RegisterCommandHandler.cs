@@ -6,6 +6,7 @@ using Domain.Factories.DirectoryTabs;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,12 @@ namespace Application.CommandHandlers.Identity
         private readonly IDirectoryTabReadService _directoryTabReadService;
         private readonly IDirectoryTabRepository _directoryTabRepository;
         private readonly IDirectoryTabFactory _directoryTabFactory;
+        private readonly ILogger<RegisterCommandHandler> _logger;
 
         public RegisterCommandHandler(IApplicationUserReadService service, IApplicationUserFactory factory, 
             IApplicationUserRepository repository, IPasswordHasher<ApplicationUser> passwordHasher,
             IDirectoryTabReadService directoryTabReadService, IDirectoryTabRepository directoryTabRepository,
-            IDirectoryTabFactory directoryTabFactory)
+            IDirectoryTabFactory directoryTabFactory, ILogger<RegisterCommandHandler> logger)
         {
             _service = service;
             _factory = factory;
@@ -37,9 +39,10 @@ namespace Application.CommandHandlers.Identity
             _directoryTabReadService = directoryTabReadService;
             _directoryTabRepository = directoryTabRepository;
             _directoryTabFactory = directoryTabFactory;
+            _logger = logger;
         }
 
-        async Task<Unit> IRequestHandler<RegisterCommand, Unit>.Handle(RegisterCommand request, CancellationToken cancellationToken)
+        async Task IRequestHandler<RegisterCommand>.Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             var (name, mail, password) = request;
 
@@ -53,12 +56,12 @@ namespace Application.CommandHandlers.Identity
             newUser.SetPassword(passwordHash);
 
             await _repository.CreateAsync(newUser);
-            
+
             var userMainDirectory = _directoryTabFactory.CreateMainDirectory(newUser, name);
 
             await _directoryTabRepository.AddAsync(userMainDirectory);
-            
-            return Unit.Value;
+
+            _logger.LogInformation($"New user {newUser.Id} registered successfully.");
         }
     }
 }

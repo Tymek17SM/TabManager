@@ -28,7 +28,7 @@ namespace Application.CommandHandlers.Tab
             _applicationUserReadService = applicationUserReadService;
         }
 
-        async Task<Unit> IRequestHandler<DeleteTabCommand, Unit>.Handle(DeleteTabCommand request, CancellationToken cancellationToken)
+        async Task IRequestHandler<DeleteTabCommand>.Handle(DeleteTabCommand request, CancellationToken cancellationToken)
         {
             var userIdFromToken = _userResolverService.GetUserId();
 
@@ -41,8 +41,6 @@ namespace Application.CommandHandlers.Tab
             var tab = await _tabRepository.GetByIdAsync(request.Id);
 
             await _tabRepository.DeleteAsync(tab);
-
-            return Unit.Value;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Application.CommandHandlers.Tab
             _applicationUserRepository = applicationUserRepository;
         }
 
-        async Task<Unit> IRequestHandler<CreateTabCommand, Unit>.Handle(CreateTabCommand request, CancellationToken cancellationToken)
+        async Task IRequestHandler<CreateTabCommand>.Handle(CreateTabCommand request, CancellationToken cancellationToken)
         {
             var (tabNameFromRequest, linkFromRequest, tabDescriptionFromRequest, directoryTabIdFromRequest) = request;
 
@@ -56,7 +56,7 @@ namespace Application.CommandHandlers.Tab
 
             bool toMainDirectoryTab = true;
 
-            if(directoryTabIdFromRequest != Guid.Empty)
+            if (directoryTabIdFromRequest != Guid.Empty)
             {
                 await _directoryTabReadService.ExistsByIdAsync(directoryTabIdFromRequest, true);
                 toMainDirectoryTab = false;
@@ -77,8 +77,6 @@ namespace Application.CommandHandlers.Tab
                 userNameFromToken);
 
             await _tabRepository.AddAsync(newTab);
-
-            return Unit.Value;
         }
     }
 }

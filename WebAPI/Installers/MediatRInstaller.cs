@@ -8,11 +8,11 @@ namespace WebAPI.Installers
     {
         void IInstaller.InstallServices(IServiceCollection services, ConfigurationManager configurationManager)
         {
-            services.AddMediatR(
-                Assembly.Load("WebAPI"), 
-                Assembly.Load("Application"), 
-                Assembly.Load("Infrastructure")
-                );
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+                Assembly.Load("WebAPI"),
+                Assembly.Load("Application"),
+                Assembly.Load("Infrastructure"))
+            );
         }
     }
 }
